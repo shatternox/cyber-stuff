@@ -3,10 +3,12 @@
 **Box Notes**
 1. Always check /etc/sudoers.d
 2. Always check /etc/crontab
-3. find / -perm -u=s -type f 2>/dev/null >>> to find some suid misconf
-4. find / -user root -perm -4000 -print 2>/dev/null
-5. when u got privesc thing just http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or just `chmod +s /bin/bash` as root
-6. linpeas linenum pspy name ur shits
+3. Always check capabilities >>> getcap -r / 2>/dev/null
+4. find / -perm -u=s -type f 2>/dev/null >>> to find some suid misconf
+5. find / -user root -perm -4000 -print 2>/dev/null
+6. when u got privesc thing just http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or just `chmod +s /bin/bash` as root
+7. linpeas linenum pspy name ur shits
+
 
 
 **PATH Privesc**
