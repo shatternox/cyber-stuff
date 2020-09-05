@@ -34,6 +34,11 @@ cat >>> can
 2. and bunch from portswigger..
 
 
+**Little SQLI**
+1. 'UNION SELECT 1,table_name,column_name FROM information_schema.columns -- -
+2. 'UNION SELECT 1,group_concat(sql),3 FROM sqlite_master -- -
+
+
 **Bufferoverflow**
 1. Predict the size
 2. msf-pattern_create.rb -l [the size] >>> we got the address
