@@ -10,7 +10,7 @@
 7. when u got privesc thing just http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or just `chmod +s /bin/bash` as root, bash -p
 8. linpeas linenum pspy name ur shits
 9. Always check `cat ~/.*history | less` or just `history`
-
+10. Use ysoserial to exploit java deserialization to get revershell or RCE (payload have to be in a file). Then use it or encode it first, what ever.
 
 **PATH Privesc**
 ### When it is not run directly, example:
