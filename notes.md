@@ -73,6 +73,7 @@ encode it with shikata_ga_nai if u want
 
 **CTF Tools**
 1. Forensics >> exiftool, volatility, zsteg, stegsolve, stegcracker, steghide
+2. Way Back Machine can see everything, not only dead websites
 
 
 **SSH with id_rsa**
