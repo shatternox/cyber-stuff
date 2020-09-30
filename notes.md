@@ -11,6 +11,8 @@
 8. linpeas linenum pspy name ur shits
 9. Always check `cat ~/.*history | less` or just `history`
 10. Use ysoserial to exploit java deserialization to get revershell or RCE (payload have to be in a file). Then use it or encode it first, what ever.
+11. Remember CVE-2019-13287 (ALL, !root) /bin/bash >>> sudo -u#-1 /bin/bash
+12. `.conf` file may contain something.
 
 **PATH Privesc**
 ### When it is not run directly, example:
