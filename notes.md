@@ -29,9 +29,8 @@ We can just exploit that like `/usr/bin/python3 -c 'import os; os.setuid(0); os.
 15. `.conf` file may contain something. (usually in /etc/apache2)
 16. Stuck? Bruteforce with no end? Generate your own wordlist with cewl! Example: cewl http://10.10.10.191/ -w customwordlist.txt -m 6
 17. 
-- SMB enum >>> smbclient -L //[IP](its_the_same_like_--list=[IP]), and continue with the shares name  smbclient //[IP]/[sharename]
-- smbclient //[IP]/[sharename] --user=[username] --workgroup=[forest name] 
-- smbclient -N //[IP]/[sharename]
+- SMB enum >>> smbclient -L //[IP](its_the_same_like_--list=[IP]), and continue with the shares name `smbclient //[IP]/[sharename]`
+- Just `smbclient -h` tbh
 18. rpcclient --user=[username] [target-ip] -W [forest name]
 19. Check cdata
 20. Port 11211 is memcached server >>> https://www.hackingarticles.in/penetration-testing-on-memcached-server/
@@ -225,6 +224,10 @@ msfconsole --resource /var/lib/veil/output/handlers/[yourbackdoor]
 1. Twitter is your friend
 2. Wayback machine is a thing
 3. Just use frickin sherlock if you have a username >>> python3 sherlock/ `username`
+https://whatsmyname.app/
+https://namecheckup.com/
+https://namechk.com/
+https://scylla.sh/api (Breach database) (ex = email:rudolphthered@hotmail.com, password:spygame, [what to search]:[the data])
 
 
 **Tricks**
