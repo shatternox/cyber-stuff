@@ -10,8 +10,6 @@ cat /etc/*release
 uname -a 
 cat /etc/issue 
 ```
-
-
 5. find / -perm -u=s -type f 2>/dev/null >>> to find some suid misconf
 6. find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
 7. find / -user root -perm -4000 -print 2>/dev/null
@@ -96,6 +94,11 @@ IF error, or stuff, just remove the local interface
 1. Always check /var/log/auth.log
 2. Always check /var/log/apache2/access.log
 
+
+**Internal**
+1. Fast internal network scan
+ex: curl http://[IP]:[Port range with the brackets]
+- curl http://10.10.11.88:[0-65353]
 
 
 **Wild card privesc**
