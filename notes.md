@@ -129,6 +129,24 @@ Ex: ssh fox@[target-ip] -p 9999
 
 
 
+**SNMP 161**
+The Simple Network Management Protocol
+1. Find the community string
+`onesixtyone <Target-IP> -c ~/wordlists/SecLists/Discovery/SNMP/snmp-onesixtyone.txt -o snmp.log`
+Example result:
+10.10.153.204 [openview] Hardware: Intel64 Family 6 Model 63 Stepping 2 AT/AT COMPATIBLE - Software: Windows Version 6.3 (Build 17763 Multiprocessor Free)
+"openview" is the community string
+
+2. With community string, we can access SNMP Server.
+Automatic: 
+snmp-check <Target-IP> -c [Community String]
+
+Manual:
+>>> Default location of the username list is: 1.3.6.1.4.1.77.1.2.25
+snmpwalk <Target-IP> -c [Community String] -v1 1.3.6.1.4.1.77.1.2.25
+
+
+
 **LOGS**
 1. Always check /var/log/auth.log
 2. Always check /var/log/apache2/access.log
