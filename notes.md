@@ -233,6 +233,17 @@ echo "chmod +s /bin/bash" > exploit.sh
 
 
 
+**cURL**
+You can actually access services other than HTTP using curl
+ex for accessing FTP service:
+1. curl 'ftp://[username]:[password]@[target_ip]/' -v -P -
+
+You can even upload file to the target!
+ex for uploading file to FTP service:
+1. curl 'ftp://[username]:[password]@[target_ip]/files/' -v -P - -T  rev.sh
+
+
+
 **Impacket**
 1. GetNPUsers.py >> This script can check of the usernames are existing and if they have Kerberos pre-authentication enabled
 
