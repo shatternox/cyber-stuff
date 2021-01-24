@@ -1,5 +1,16 @@
 ## I used to forget stuff when doing CTF and things. I build these notes little by little to help me remember things I failed to remember. This note doesn't contain everything. Nevertheless, I hope it can be useful. 
 
+
+
+## HolyBible
+- Linux
+https://gtfobins.github.io/
+- Windows 
+https://lolbas-project.github.io/
+https://misakikata.github.io/2019/10/Windows-Notes/
+
+
+
 **Box Notes**
 1. Always check /etc/sudoers.d
 2. Always check /etc/crontab or cd to /etc/cron.d
@@ -156,6 +167,15 @@ snmp-check <Target-IP> -c [Community String]
 Manual:
 >>> Default location of the username list is: 1.3.6.1.4.1.77.1.2.25
 snmpwalk <Target-IP> -c [Community String] -v1 1.3.6.1.4.1.77.1.2.25
+
+
+
+**Port Knocking**
+- No port, open seems weird?
+1. sudo apt-get install knockd
+2. knock [ip] [port]
+ex: knock 10.10.225.87 21 22 8080
+3. Just script it to knock all port and do nmap again.
 
 
 
