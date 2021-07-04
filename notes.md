@@ -196,6 +196,22 @@ Ex: ssh fox@[target-ip] -p 9999
 
 
 
+**DNS** 
+https://linux.die.net/man/8/nsupdate
+1. Adding zone
+nsupdate -k [the key file]``(should be in /etc/bind)``
+`update add [domain_name] 86400 A [your IP]`
+`update add [yourIPreversed].in-addr-arpa 300 PTR [domain name]`
+
+Example:
+nsupdate -k infra.key
+update add nonox.infra.dyna.htb 86400 A 10.10.14.200
+<enter>
+update add 200.14.10.10.in-addr-arpa 300 PTR nonox.infra.dyna.htb
+send
+
+
+
 **SNMP 161**
 The Simple Network Management Protocol
 1. Find the community string
