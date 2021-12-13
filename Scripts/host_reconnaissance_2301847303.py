@@ -149,7 +149,7 @@ def upload_to_pastebin():
     # Documentation: https://pastebin.com/doc_api
     
     url = "https://pastebin.com/api/api_post.php"
-    api_dev_key = 'QXXQRyswGFFaR1ByoHjG3dW8IL-d0ADG' # PAKAI DEV KEY SENDIRI YA, HEHE
+    api_dev_key = '' # PAKAI DEV KEY SENDIRI YA, HEHE
     api_paste_code = RESULT
     api_paste_private = 1
     api_paste_name = "enumeration_result.txt"
