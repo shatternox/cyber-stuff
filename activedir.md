@@ -8,6 +8,15 @@
 ## try anonymous login
 `smbclient -N //[IP]/[sharename]`
 
+## try null authentication
+`smclient -U '' -N //[IP]/sharename`
+
+## try with rpcclient (when got in just google rpcclient commands)
+`rpcclient [ip]`
+
+## try with rpcclient with null authentication
+`rpcclient -U '' -N [IP]`
+
 ## enum more with enum4linux
 `enum4linux -a [IP]`
 

