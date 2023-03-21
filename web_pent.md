@@ -11,3 +11,7 @@ npm install -g source-map-unpack
 
 unpack <output folder> <sc mapnya>
 ```
+
+## Finding API Params on Some Random API Gateway (THIS IS IMPORTANT)
+1. Use Arjun
+https://github.com/s0md3v/Arjun/wiki/Usage
