@@ -20,5 +20,7 @@ am (activity manager)
 > frida -U -f <target_app> -l <frida_script>
 
 
+## Accessing Shared Preference
+> cd /data/data/com.cashlez.android.garuda.allinone.staging/shared_prefs
 
 
