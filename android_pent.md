@@ -24,3 +24,16 @@ am (activity manager)
 > cd /data/data/com.cashlez.android.garuda.allinone.staging/shared_prefs
 
 
+## AAB to APK
+Bundletool = https://github.com/google/bundletool/releases
+> bundletool build-apks --bundle=/MyApp/my_app.aab --output=/MyApp/my_app.apks
+> apksnya di ekstract aja (click kanan extract here)
+> nanti ada folder splits, tinggal dimerge aja kyk biasa
+
+
+
+
+
+
+
+
