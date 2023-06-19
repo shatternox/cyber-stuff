@@ -21,7 +21,8 @@ https://github.com/s0md3v/Arjun/wiki/Usage
 1. Kalo ada fitur file upload yg ngerender image, try to upload malicious SVG fila (buat XSS or XXE misalnya)
 
 
-
+## For DMARC Misconf
+1. emkei.cz
 
 
 
