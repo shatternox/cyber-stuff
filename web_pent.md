@@ -23,7 +23,10 @@ https://github.com/s0md3v/Arjun/wiki/Usage
 
 ## For DMARC Misconf
 1. emkei.cz
+2. SPF record harus deprecated / Gk ada
+3. DMARC Quarantine/Reject policy harus not enabled
 
+check di mxtoolbox
 
 
 
