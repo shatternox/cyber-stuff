@@ -71,3 +71,6 @@ cd 'C:\$Recycle.bin\S-1-5-21-1987495829-1628902820-919763334-1001'
 ## Check the powershell history (Ini ada di semua windows)
 C:\Users\[username]\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
 
+## Certify Privesc
+- https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/ad-certificates/domain-escalation
+- https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-misconfigured-certificate-template-to-domain-admin)
