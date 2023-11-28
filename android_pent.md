@@ -31,7 +31,37 @@ Bundletool = https://github.com/google/bundletool/releases
 > nanti ada folder splits, tinggal dimerge aja kyk biasa
 
 
+## Smali patching
 
+1. apktool d com.easeapp-1_merged-aligned-debugSigned.apk
+
+2. smali > nama packagenya, ex: com > easeapp
+
+3. cari activity yg mau diinject, ex: MainActivity.smali
+
+4. cari function yang mau diinject, ex: onCreate
+
+5. masukkin injection code, localsnya + 2
+
+6. apktool b com.easeapp-1_merged-aligned-debugSigned (ini folder hasil decompilenya)ø
+
+7. java -jar ~/tools/uber-apk-signer-1.3.0.jar -a com.easeapp-1_merged-aligned-debugSigned/dist/com.easeapp-1_merged-aligned-debugSigned.apk
+
+8. install lagi dan boom!
+
+
+>> Injection code
+```
+const/4 v0, 0x1
+
+const-string v1, "PoC Visit My Evil Site (https[://]evil.com)"
+
+invoke-static {p0, v1, v0}, Landroid/widget/Toast;->makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;
+
+move-result-object v0
+
+invoke-virtual {v0}, Landroid/widget/Toast;->show()V
+```
 
 
 
