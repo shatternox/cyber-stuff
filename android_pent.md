@@ -57,7 +57,7 @@ Bundletool = https://github.com/google/bundletool/releases
 
 4. cari function yang mau diinject, ex: onCreate
 
-5. masukkin injection code di bawah locals, localsnya + 2
+5. masukkin injection code di bawah locals, localsnya + 2 (ato gk + 4 minimal)
 
 6. apktool b com.easeapp-1_merged-aligned-debugSigned (ini folder hasil decompilenya)
 
