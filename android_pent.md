@@ -40,6 +40,10 @@ am (activity manager)
 > cd /data/data/com.cashlez.android.garuda.allinone.staging/shared_prefs
 
 
+## Accessing Local Storage
+/storage/emulated/0/Android/data/com.emobile.mobileentry/
+
+
 ## AAB to APK
 Bundletool = https://github.com/google/bundletool/releases
 > bundletool build-apks --bundle=/MyApp/my_app.aab --output=/MyApp/my_app.apks
@@ -92,4 +96,17 @@ adb connect 127.0.0.1:62001
 3. android root disable
 4. android hooking list activities
 5. android intent launch_activity com.emobile.mobileentry.ListCaptureDocAppsInActivity
+
+
+
+
+
+
+
+
+
+
+
+
+
 
