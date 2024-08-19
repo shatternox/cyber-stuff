@@ -10,6 +10,7 @@ Checklist:
 - Shared Preference
 - Custom Keyboard
 - Hardcoded Secrets
+- Insecure Local Storage / External also
 
 
 
@@ -37,11 +38,11 @@ am (activity manager)
 
 
 ## Accessing Shared Preference
-> cd /data/data/com.cashlez.android.garuda.allinone.staging/shared_prefs
+> cd /data/data/com.asd.asd.asd.asd.asd/shared_prefs
 
 
-## Accessing Local Storage
-/storage/emulated/0/Android/data/com.emobile.mobileentry/
+## Accessing External Local Storage
+/storage/emulated/0/Android/data/com.asd.asd/
 
 
 ## AAB to APK
