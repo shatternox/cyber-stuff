@@ -3757,7 +3757,7 @@ proxychains ./ssh_dynamic_client -i 172.16.198.217 -p 4872
 ```
 
 
-# Pivoting with Chisel 
+# Pivoting with Chisel (John Hammond)
 https://www.youtube.com/watch?v=pbR_BNSOaMk&ab_channel=JohnHammond
 https://ap3x.github.io/posts/pivoting-with-chisel/ (HTB Prolabs Dante)
 https://github.com/jpillora/chisel/releases
