@@ -43,6 +43,7 @@ am (activity manager)
 
 ## Accessing External Local Storage
 /storage/emulated/0/Android/data/com.asd.asd/
+/storage/emulated/0/Download
 
 
 ## AAB to APK
@@ -54,7 +55,7 @@ Bundletool = https://github.com/google/bundletool/releases
 
 ## Smali patching
 
-1. apktool d com.easeapp-1_merged-aligned-debugSigned.apk
+1. java -jar apktool d com.easeapp-1_merged-aligned-debugSigned.apk
 
 2. smali > nama packagenya, ex: com > easeapp
 
@@ -69,6 +70,15 @@ Bundletool = https://github.com/google/bundletool/releases
 7. java -jar ~/tools/uber-apk-signer-1.3.0.jar -a com.easeapp-1_merged-aligned-debugSigned/dist/com.easeapp-1_merged-aligned-debugSigned.apk
 
 8. install lagi dan boom!
+
+
+===================
+
+Patching root detection
+
+1. Cari class yang call root detectionnya
+2. Patch smalinya. Biasanya 'nop' smali di alert dialog.
+3. Palingan harus call activity login lagi.
 
 
 >> Injection code
