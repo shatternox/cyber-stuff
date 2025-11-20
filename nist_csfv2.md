@@ -121,7 +121,7 @@
 
 ---
 
-### GV.SC – Cybersecurity Supply Chain Risk Management
+### GV.SC – Cybersecurity Supply Chain Risk Management (C-SCRM)
 
 - **GV.SC-01 – C-SCRM program and processes are established**  
   *Meaning:* The org has a formal program to manage cyber risks from suppliers and third parties.  
