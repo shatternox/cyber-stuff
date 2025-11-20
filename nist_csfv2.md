@@ -393,3 +393,30 @@ All of these are **withdrawn categories** and re-mapped:
 | RC.IM-02  | Withdrawn     | Testing/verification of recovery improvements.                                                   | → ID.IM-03 |
 
 ---
+
+## Implementation Steps (7 Steps)
+
+1. Prioritize and Scope
+2. Orientation
+3. Develop a Profile
+4. Conduct a Risk Assessment
+5. Createa a Target Profile
+6. Analyze & Prioritize Gaps
+7. Implementation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
