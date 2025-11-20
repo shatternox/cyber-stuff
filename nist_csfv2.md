@@ -396,16 +396,19 @@ All of these are **withdrawn categories** and re-mapped:
 
 ## Implementation Steps (7 Steps)
 
-1. Prioritize and Scope
-2. Orientation
-3. Develop a Profile
+1. Prioritize and Scope (Where and what's the important data / asset we are trying to protect)
+2. Orientation (What are the risks and threats)
+3. Develop a Profile (In all of the CSF 2.0 sub categories, what level are we at? We can pich relevant categories for our org)
 4. Conduct a Risk Assessment
-5. Createa a Target Profile
+5. Create a Target Profile (Target improvementnya mau ke level mana?)
 6. Analyze & Prioritize Gaps
 7. Implementation
 
 
-
+Value 0-4  (Not started to Fully Achieved)
+- Assign number to all aspect (of the current level)
+- Assign number to target level.
+- Proritize the one with the biggest delta (target level - current level)
 
 
 
