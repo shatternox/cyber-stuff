@@ -411,6 +411,165 @@ Value 0-4  (Not started to Fully Achieved)
 - Proritize the one with the biggest delta (target level - current level)
 
 
+## Risk Management Framework (RMF) - NIST 800-37
+- Inherent Risk --> Risk that are available from the start
+- Residual Risk --> The remaining risk available after efforts have been made to reduce the inherent risk.
+
+# NIST RMF (SP 800-37 Rev. 2) – 7 Steps and Subtasks Cheat Sheet
+
+Source: NIST SP 800-37 Rev. 2 – *Risk Management Framework for Information Systems and Organizations* (Tasks P-1…M-7).   
+
+RMF **7 steps**:
+
+1. **Prepare**
+2. **Categorize**
+3. **Select**
+4. **Implement**
+5. **Assess**
+6. **Authorize**
+7. **Monitor**
+
+Each step below shows:
+- **Purpose** (what the step is for)
+- **Subtasks** (Task ID + short, practical meaning)
+
+---
+
+## Step 1 – PREPARE (P-1 to P-18)
+
+**Purpose:**  
+Get the **organization** and **system** ready to manage security & privacy risk (governance, roles, risk strategy, architecture, boundaries, requirements, etc.).   
+
+### 1.1 Organization-Level Prepare Tasks
+
+| Task ID | Short Name                                 | What you do (short) |
+|--------:|--------------------------------------------|---------------------|
+| **P-1** | Risk Management Roles                      | Identify and assign people to specific security & privacy risk management roles (CIO, CISO, AO, etc.).  |
+| **P-2** | Risk Management Strategy                   | Define org-wide risk strategy, including risk tolerance and high-level approach.  |
+| **P-3** | Risk Assessment – Organization             | Perform and maintain an organization-wide security & privacy risk assessment. |
+| **P-4** | Tailored Control Baselines / CSF Profiles  | Create and publish org-tailored control baselines and/or CSF profiles (optional but recommended). |
+| **P-5** | Common Control Identification              | Identify and document controls that will be **common controls** (inherited by multiple systems). |
+| **P-6** | Impact-Level Prioritization (Optional)     | Prioritize systems that share the same impact level (e.g., all High systems). |
+| **P-7** | Continuous Monitoring Strategy – Org       | Define and implement org-wide continuous monitoring strategy (what to monitor, how often, by whom). |
+
+---
+
+### 1.2 System-Level Prepare Tasks
+
+| Task ID | Short Name                 | What you do (short) |
+|--------:|---------------------------|---------------------|
+| **P-8**  | Mission / Business Focus  | Identify missions, business functions, and processes the system supports.  |
+| **P-9**  | System Stakeholders       | Identify all stakeholders with an interest in the system (owners, operators, users, privacy, security, etc.). |
+| **P-10** | Asset Identification      | Identify assets that need protection (data, components, interfaces, external services). |
+| **P-11** | Authorization Boundary    | Define the system’s authorization boundary (what is **in** the system vs. external). |
+| **P-12** | Information Types         | Identify information types the system processes, stores, transmits.  |
+| **P-13** | Information Life Cycle    | Map the information life cycle for each info type (create, process, store, share, archive, destroy). |
+| **P-14** | Risk Assessment – System  | Perform a **system-level** risk assessment and keep results updated.  |
+| **P-15** | Requirements Definition   | Define security, privacy, and SCRM requirements for the system and environment of operation. |
+| **P-16** | Enterprise Architecture   | Place the system within the enterprise architecture (how it fits with other systems/services). |
+| **P-17** | Requirements Allocation   | Allocate security & privacy requirements to the system vs. its environment (e.g., common controls). |
+| **P-18** | System Registration       | Register the system with relevant org programs/offices (e.g., inventory, portfolio, ATO tracking). |
+
+---
+
+## Step 2 – CATEGORIZE (C-1 to C-3)
+
+**Purpose:**  
+Determine the **security & privacy impact level** of the system and its information, to drive control selection.   
+
+| Task ID | Short Name           | What you do (short) |
+|--------:|----------------------|---------------------|
+| **C-1** | System Description   | Document system characteristics (purpose, components, boundary, data types, users, interfaces). |
+| **C-2** | Security Categorization | Determine security categorization (e.g., FIPS 199 High/Moderate/Low for C/I/A) for system + info types. |
+| **C-3** | Security Categorization Review & Approval | Get security categorization reviewed and formally approved; record the result. |
+
+---
+
+## Step 3 – SELECT (S-1 to S-6)
+
+**Purpose:**  
+Choose and tailor the **security & privacy controls** needed for the system and its environment, based on categorization and risk.   
+
+| Task ID | Short Name                            | What you do (short) |
+|--------:|---------------------------------------|---------------------|
+| **S-1** | Control Selection                     | Select controls for the system and environment (e.g., from NIST SP 800-53 baselines or org baselines). |
+| **S-2** | Control Tailoring                     | Tailor chosen controls (add, remove, or modify parameters) to fit system-specific risk/context. |
+| **S-3** | Control Allocation                    | Decide which controls are system-specific vs. common vs. hybrid; assign to system/environment.  |
+| **S-4** | Document Planned Control Implementations | Document how each control will be implemented (system security & privacy plan). |
+| **S-5** | Continuous Monitoring Strategy – System | Define system-level continuous monitoring strategy (what controls will be monitored and how). |
+| **S-6** | Plan Review and Approval              | Get the security/privacy plans and monitoring strategy reviewed and formally approved. |
+
+---
+
+## Step 4 – IMPLEMENT (I-1 to I-2)
+
+**Purpose:**  
+Put the selected controls **into operation** and keep implementation info up to date.   
+
+| Task ID | Short Name                 | What you do (short) |
+|--------:|----------------------------|---------------------|
+| **I-1** | Control Implementation     | Implement the selected security, privacy, and SCRM controls for the system and environment. |
+| **I-2** | Update Implementation Information | Update security/privacy documentation to reflect the actual implementation (e.g., SSP, diagrams, configs). |
+
+---
+
+## Step 5 – ASSESS (A-1 to A-6)
+
+**Purpose:**  
+Check whether controls are **implemented correctly, operating as intended, and effective**.   
+
+| Task ID | Short Name             | What you do (short) |
+|--------:|------------------------|---------------------|
+| **A-1** | Assessor Selection     | Select qualified assessors (internal or external) with appropriate independence/skills. |
+| **A-2** | Assessment Plan        | Develop, review, and approve a control assessment plan (scope, methods, roles, schedule). |
+| **A-3** | Control Assessments    | Execute the assessments (tests, interviews, document reviews) to evaluate control effectiveness. |
+| **A-4** | Assessment Reports     | Produce security and privacy assessment reports summarizing findings, risks, and residual issues. |
+| **A-5** | Remediation Action     | Take remediation actions to address findings (fix controls, reduce risk). |
+| **A-6** | Plan of Action & Milestones (POA&M) | Create/update POA&M listing remaining weaknesses, tasks, owners, and due dates. |
+
+---
+
+## Step 6 – AUTHORIZE (R-1 to R-5)
+
+**Purpose:**  
+Make a **risk-based decision** to authorize (or not authorize) the system’s operation.   
+
+| Task ID | Short Name              | What you do (short) |
+|--------:|-------------------------|---------------------|
+| **R-1** | Authorization Package   | Assemble authorization package (SSP, assessment reports, POA&M, other supporting docs). |
+| **R-2** | Risk Analysis & Determination | Analyze residual risk using assessment results and other info; determine overall risk posture. |
+| **R-3** | Risk Response           | Decide risk responses (accept, mitigate further, transfer, avoid) for residual risk. |
+| **R-4** | Authorization Decision  | Authorizing Official issues decision (e.g., ATO, ATO with conditions, denial). |
+| **R-5** | Authorization Reporting | Record, track, and report authorization decisions as required (e.g., dashboards, FISMA reporting). |
+
+---
+
+## Step 7 – MONITOR (M-1 to M-7)
+
+**Purpose:**  
+**Continuously monitor** the system and its environment, keep risk picture current, and support ongoing authorization.   
+
+| Task ID | Short Name                    | What you do (short) |
+|--------:|-------------------------------|---------------------|
+| **M-1** | System & Environment Changes  | Track changes to the system and environment (architecture, components, threats, missions). |
+| **M-2** | Ongoing Assessments           | Perform ongoing control assessments according to the monitoring strategy (e.g., periodic/trigger-based). |
+| **M-3** | Ongoing Risk Response         | Adjust risk responses (controls, POA&M, risk decisions) as new info and assessment results come in. |
+| **M-4** | Authorization Package Updates | Update SSP, assessment reports, POA&M, and related docs to reflect current state. |
+| **M-5** | Security & Privacy Reporting  | Report security/privacy posture and risk to stakeholders (dashboards, metrics, compliance reports). |
+| **M-6** | Ongoing Authorization         | Support ongoing authorization (keep AO’s risk view current instead of “big-bang” re-auth only). |
+| **M-7** | System Disposal               | When retiring the system, decommission and dispose of it and its data safely, and close out authorization. |
+
+---
+
+## Quick Memory Hook
+
+- **Prepare** – set roles, strategy, architecture, boundaries, and requirements (P-1…P-18).  
+- **Categorize** – understand the system and decide impact levels (C-1…C-3).  
+- **Select** – pick and tailor controls, document the plan (S-1…S-6).  
+- **Implement** – actually build and configure the controls (I-1…I-2).  
+- **Assess** – test the controls and document results (A-1…A-6).  
+- **Authorize** – AO makes a formal risk decision (R-1…R-5).  
+- **Monitor** – continuous monitoring, updates, and eventual disposal (M-1…M-7).
 
 
 
