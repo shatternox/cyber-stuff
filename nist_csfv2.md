@@ -5,6 +5,7 @@
 > - **Status**: `Active (CSF 2.0)` or `Withdrawn (from CSF 1.1)`  
 > - For **Withdrawn**: shows where its intent moved in CSF 2.0.  
 > - For **Active**: includes a plain-English explanation + example evidence you’d show an auditor.
+> SSP --> System Security Plan
 
 ---
 
