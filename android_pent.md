@@ -102,7 +102,7 @@ invoke-virtual {v0}, Landroid/widget/Toast;->show()V
 
 ## Objection
 adb connect 127.0.0.1:62001
-1. objection --gadget "com.asd.asd" explore
+1. objection --name "com.asd.asd" start
 2. android sslpinning disable
 3. android root disable
 4. android hooking list activities
