@@ -12,7 +12,8 @@ Checklist:
 - Hardcoded Secrets
 - Insecure Local Storage / External also
 
-frida-ps -Uai
+`frida-ps -Uai`
+
 
 ## Splitted APK (Kalau kita bisa split dan merge, kita bisa edit base.apk dan jadi apapun yang kita mau, kita bisa masukkin malware, keylogger, inejct JS dll. Kalau ada integrity checking, harusnya pas merge ada warning - The App has been modified, dll)
 > Buat reduce size (Kasih APK yang compatible aja)
