@@ -30,6 +30,7 @@ String[] excludeDomain = {
   ".*rubiconproject\\.com.*",
   ".*facebook\\.com.*",
   ".*amplitude\\.com.*",
+  ".*imagekit\\.io.*",
   ".*browser-intake-datadoghq\\.com.*",
 
 
