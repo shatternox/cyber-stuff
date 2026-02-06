@@ -1,0 +1,117 @@
+/**
+* Remove some unwanted packets in the process of catching packets,
+* you can block out the corresponding domain name according to your own demand
+* For example, if you do not want to see any google request, use the regular ".*google.*", baidu is the same operation!
+* If you just don't want to see requests from firefox.com, then use ".*firefox.com"
+*
+* Easy to understand, easy to modify
+**/
+
+var host = requestResponse.request().httpService().host();
+if (host == null) {
+  return true;
+}
+
+final String hostLower = host.toLowerCase();
+
+String[] excludeDomain = {
+
+  // Myaddon
+  ".*media\\.net.*",
+  ".*datadoghq\\.com.*",
+  ".*tiktok\\.com.*",
+  ".*smartadserver\\.com.*",
+  ".*socdm\\.com.*",
+  ".*braze\\.com.*",
+  ".*linkedin\\.com.*",
+  ".*creativecdn\\.com.*",
+  ".*dnacdn\\.net.*",
+  ".*pubmatic\\.com.*",
+  ".*rubiconproject\\.com.*",
+  ".*facebook\\.com.*",
+  ".*amplitude\\.com.*",
+  ".*browser-intake-datadoghq\\.com.*",
+
+
+  // Datadog
+  ".*datadog.*",
+  ".*datadoghq\\.com.*",
+  ".*browser-intake-datadoghq\\.com.*",
+
+  // AWS noise (optional)
+  ".*amazonaws\\.com.*",
+  ".*connect\\.aws.*",
+  ".*awswaf\\.com.*",
+  ".*token\\.aws.*",
+
+  // Common noise
+  ".*google.*",
+  ".*googleapis\\.com.*",
+  ".*gstatic\\.com.*",
+  ".*googletagmanager\\.com.*",
+  ".*doubleclick\\.net.*",
+  ".*youtube\\.com.*",
+  ".*bing\\.com.*",
+
+  ".*freebuf\\.com.*",
+  ".*firefox\\.com.*",
+  ".*mozilla\\..*",
+  ".*mozilla\\.com.*",
+  ".*mozilla\\.net.*",
+
+  ".*baidu\\.com.*",
+  ".*gtimg\\.com.*",
+  ".*map\\.qq\\.com.*",
+  ".*qpic\\.cn.*",
+
+  ".*github\\.com.*",
+  ".*csdn\\.net.*",
+  ".*csdnimg\\.cn.*",
+  ".*52pojie\\.cn.*",
+
+  ".*aliyun\\.com.*",
+  ".*aliapp\\.org.*",
+  ".*alicdn\\.com.*",
+
+  ".*adtidy\\.org.*",
+  ".*qianxin\\.com.*",
+  ".*immersivetranslate\\.com.*",
+  ".*openjfx\\.cn.*",
+  ".*feishu\\.cn.*",
+  ".*grok\\.com.*",
+
+  ".*greasyfork\\.org.*",
+  ".*piwik\\.pro.*",
+  ".*portswigger\\.net.*",
+  ".*geetest\\.com.*",
+  ".*licdn\\.com.*",
+  ".*intercom\\.io.*",
+  ".*tampermonkey\\.net.*",
+  ".*darkreader\\.org.*",
+  ".*chatgpt\\.com.*",
+
+  // Adtech/RTB
+  ".*adnxs.*",
+  ".*criteo.*",
+  ".*bidswitch.*",
+  ".*unrulymedia.*",
+  ".*360yield.*",
+  ".*outbrain\\.com.*",
+  ".*1rx\\.io.*",
+  ".*3lift\\.com.*",
+  ".*agkn\\.com.*",
+  ".*casalemedia\\.com.*",
+  ".*teads\\.tv.*",
+  ".*clmbtech\\.com.*",
+  ".*taboola\\.com.*",
+  ".*rlcdn\\.com.*",
+};
+
+boolean isExcluded = Arrays.stream(excludeDomain)
+    .map(Pattern::compile)
+    .anyMatch(pattern -> pattern.matcher(hostLower).find());
+
+if (isExcluded) {
+    return false;
+}
+return true;
